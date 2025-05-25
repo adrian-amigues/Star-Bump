@@ -1,7 +1,11 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour {
   [SerializeField] private float moveSpeed = 4f;
+
+  private readonly float xBound = 8f;
+  private readonly float yBound = 4f;
 
   private InputSystem_Actions controls;
   private Vector2 moveInput;
@@ -17,6 +21,7 @@ public class PlayerController : MonoBehaviour {
 
   private void FixedUpdate() {
     MovePlayer();
+    FaceMouse();
   }
 
   private void OnEnable() {
@@ -29,6 +34,15 @@ public class PlayerController : MonoBehaviour {
 
   private void MovePlayer() {
     var targetPos = rb.position + (moveInput.normalized * (moveSpeed * Time.fixedDeltaTime));
-    rb.MovePosition(targetPos);
+    var clampedX = Mathf.Clamp(targetPos.x, -xBound, xBound);
+    var clampedY = Mathf.Clamp(targetPos.y, -yBound, yBound);
+
+    rb.MovePosition(new Vector2(clampedX, clampedY));
+  }
+
+  private void FaceMouse() {
+    var mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+    Vector2 direction = mousePos - transform.position;
+    transform.up = direction;
   }
 }

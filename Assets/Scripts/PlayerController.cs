@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : Singleton<PlayerController> {
   [SerializeField] private float moveSpeed = 4f;
 
   private readonly float xBound = 8f;
@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour {
   private Vector2 moveInput;
   private Rigidbody2D rb;
 
-  private void Awake() {
+  protected override void Awake() {
+    base.Awake();
     rb = GetComponent<Rigidbody2D>();
 
     controls = new InputSystem_Actions();

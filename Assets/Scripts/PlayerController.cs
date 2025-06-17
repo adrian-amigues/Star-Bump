@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 public class PlayerController : Singleton<PlayerController> {
   [SerializeField] private float moveSpeed = 4f;
 
+  public Vector2 Velocity { get; private set; }
+
   private readonly float xBound = 8f;
   private readonly float yBound = 4f;
 
@@ -11,9 +13,12 @@ public class PlayerController : Singleton<PlayerController> {
   private Vector2 moveInput;
   private Rigidbody2D rb;
 
+  private Vector2 lastPosition;
+
   protected override void Awake() {
     base.Awake();
     rb = GetComponent<Rigidbody2D>();
+    lastPosition = rb.position;
 
     controls = new InputSystem_Actions();
     controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
@@ -23,6 +28,10 @@ public class PlayerController : Singleton<PlayerController> {
   private void FixedUpdate() {
     MovePlayer();
     FaceMouse();
+
+    // Calculate velocity manually based on position change
+    Velocity = (rb.position - lastPosition) / Time.fixedDeltaTime;
+    lastPosition = rb.position;
   }
 
   private void OnEnable() {

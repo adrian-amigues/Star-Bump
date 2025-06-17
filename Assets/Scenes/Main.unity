@@ -375,7 +375,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -939,6 +939,22 @@ PrefabInstance:
     - target: {fileID: 2262498211686110359, guid: 3187136635039b7439cc7cb0c2c81882, type: 3}
       propertyPath: m_Name
       value: Player Shield Left
+      objectReference: {fileID: 0}
+    - target: {fileID: 2898434245538673471, guid: 3187136635039b7439cc7cb0c2c81882, type: 3}
+      propertyPath: m_Size.x
+      value: 1.7711067
+      objectReference: {fileID: 0}
+    - target: {fileID: 2898434245538673471, guid: 3187136635039b7439cc7cb0c2c81882, type: 3}
+      propertyPath: m_Size.y
+      value: 1.9999996
+      objectReference: {fileID: 0}
+    - target: {fileID: 2898434245538673471, guid: 3187136635039b7439cc7cb0c2c81882, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.35527104
+      objectReference: {fileID: 0}
+    - target: {fileID: 2898434245538673471, guid: 3187136635039b7439cc7cb0c2c81882, type: 3}
+      propertyPath: m_Offset.y
+      value: -8.026464e-10
       objectReference: {fileID: 0}
     - target: {fileID: 6075363767021370207, guid: 3187136635039b7439cc7cb0c2c81882, type: 3}
       propertyPath: shieldColor

@@ -16,4 +16,6 @@ MonoBehaviour:
   visualColor: {r: 0.9921569, g: 0.22352943, b: 0.9921569, a: 1}
   destroyVfx: {fileID: 8321782366658944400, guid: 426f95f66d221164f96264eb99ffc9eb, type: 3}
   speed: 1
+  maxSpeed: 2
+  acceleration: 5
   damage: 1

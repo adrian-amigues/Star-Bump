@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4971205908514083415}
   - component: {fileID: 2898434245538673471}
   - component: {fileID: 6075363767021370207}
+  - component: {fileID: 741344976740789246}
   m_Layer: 8
   m_Name: Player Shield
   m_TagString: Untagged
@@ -106,7 +107,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: a8c7fbae7118c284190896424bb6af8c, type: 2}
+  m_Material: {fileID: 6200000, guid: 0d651ab7e83c4124c8975fd68a0b5eda, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -147,7 +148,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -167,3 +168,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shieldColor: 1
+  shieldCooldown: 3
+--- !u!95 &741344976740789246
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2262498211686110359}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eff40967dd3ac3646b3700f957fc2b1f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

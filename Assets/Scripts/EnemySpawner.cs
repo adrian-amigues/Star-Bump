@@ -14,6 +14,6 @@ public class EnemySpawner : MonoBehaviour {
   private void SpawnEnemy() {
     GameObject enemyInstance = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
     EnemyMissile enemyMissile = enemyInstance.GetComponent<EnemyMissile>();
-    enemyMissile.missileData = missileData;
+    enemyMissile.Initialize(missileData);
   }
 }

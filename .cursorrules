@@ -1,0 +1,70 @@
+# Star Bump - Unity 2D Game Project Cursor Rules
+
+## Project Context
+This is a Unity 2D physics-based game where missiles bounce off shields and interact with various game objects. The game uses Unity's Universal Render Pipeline (URP) and the new Input System.
+
+## Documentation References
+- Always refer to Unity version 6.1 docs
+- Unity 2D Documentation: https://docs.unity3d.com/Manual/Unity2D.html
+- Unity Physics2D: https://docs.unity3d.com/Manual/Physics2DReference.html
+- Unity Input System: https://docs.unity3d.com/Packages/com.unity.inputsystem@1.7/manual/
+- Unity URP: https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@latest/
+- Unity ScriptableObjects: https://docs.unity3d.com/Manual/class-ScriptableObject.html
+- C# Unity Scripting: https://docs.unity3d.com/ScriptReference/
+
+## Unity-Specific Rules
+- Always use Unity's new Input System (InputSystem_Actions.cs already exists)
+- Prefer ScriptableObjects for data containers (like MissileData.cs)
+- Use Unity's component-based architecture - favor composition over inheritance
+- Follow Unity naming conventions: PascalCase for public fields, camelCase for private
+- Use [SerializeField] for private fields that need Inspector exposure
+<!-- - Always use RequireComponent attribute when components have dependencies -->
+- Prefer GetComponent<>() in Awake() or Start(), cache references when possible
+
+## Physics & 2D Specific
+- Use Physics2D methods for 2D physics (CircleCast, Raycast2D, etc.)
+- Always account for object scale when working with collider radius calculations
+- Use LayerMask for collision filtering
+- Prefer Rigidbody2D.linearVelocity over the deprecated velocity property
+- Use Physics2D.CircleCast for accurate collision prediction matching actual physics
+
+## Code Style & Architecture
+- Use meaningful variable names that describe the game context
+- Group related functionality in separate classes (e.g., EnemySpawner, PlayerController)
+- Use enums for game states and types (see Enums.cs)
+- Implement Singleton pattern sparingly and only for true singletons
+- Always null-check before destroying GameObjects
+- Use coroutines for time-based operations and animations
+
+## Performance Considerations
+- Cache frequently accessed components in Awake() or Start()
+- Use object pooling for frequently instantiated objects (missiles, effects)
+- Avoid expensive operations in Update() - prefer FixedUpdate() for physics
+- Use CircleCast instead of multiple Raycasts when appropriate
+
+## Game-Specific Context
+- Missiles have colors and bounce off matching shield colors
+- Trajectory drawing uses LineRenderer with physics prediction
+- Enemy spawning should be configurable and scalable
+- Player shield mechanics involve color matching and physics materials
+- Visual effects (VFX) are used for missile explosions
+- The game uses prefabs for reusable game objects
+
+## Error Handling
+- Always check for null references before component access
+- Use TryGetComponent<>() when component existence is uncertain
+- Validate ScriptableObject data before use
+- Handle edge cases in physics calculations (zero velocity, etc.)
+
+## Debugging & Maintenance
+- Use Debug.Log sparingly in production code
+- Prefer Unity's built-in profiler for performance analysis
+- Comment complex physics calculations and trajectory logic
+- Document public API methods and their expected behavior
+
+## File Organization
+- Scripts go in Assets/Scripts/ with appropriate subfolders
+- Prefabs in Assets/Prefabs/
+- ScriptableObjects in Assets/ScriptableObjects/
+- Materials and Physics Materials in Assets/Materials/
+- Follow the existing folder structure consistently

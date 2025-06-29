@@ -3,8 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : Singleton<PlayerController> {
   [SerializeField] private float moveSpeed = 4f;
-
-  public Vector2 Velocity { get; private set; }
+  [SerializeField] private float rotationSensitivity = 0.1f;
 
   private readonly float xBound = 8f;
   private readonly float yBound = 4f;
@@ -12,26 +11,28 @@ public class PlayerController : Singleton<PlayerController> {
   private InputSystem_Actions controls;
   private Vector2 moveInput;
   private Rigidbody2D rb;
-
-  private Vector2 lastPosition;
+  private float shieldRotation = 0f;
 
   protected override void Awake() {
     base.Awake();
     rb = GetComponent<Rigidbody2D>();
-    lastPosition = rb.position;
+
+    SetCursorLockState(true);
 
     controls = new InputSystem_Actions();
     controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
     controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
   }
 
+  private void Update() {
+    if (Keyboard.current.escapeKey.wasPressedThisFrame) {
+      SetCursorLockState(!Cursor.visible);
+    }
+  }
+
   private void FixedUpdate() {
     MovePlayer();
-    FaceMouse();
-
-    // Calculate velocity manually based on position change
-    Velocity = (rb.position - lastPosition) / Time.fixedDeltaTime;
-    lastPosition = rb.position;
+    RotateShieldsWithMouseDelta();
   }
 
   private void OnEnable() {
@@ -42,6 +43,21 @@ public class PlayerController : Singleton<PlayerController> {
     controls.Player.Disable();
   }
 
+  private void OnApplicationFocus(bool hasFocus) {
+    if (hasFocus) {
+      SetCursorLockState(true);
+    }
+  }
+
+  private void SetCursorLockState(bool isLocked) {
+    Cursor.lockState = isLocked ? CursorLockMode.Locked : CursorLockMode.None;
+    Cursor.visible = !isLocked;
+
+    if (isLocked) {
+      Mouse.current.delta.ReadValue(); // Clear any stale delta
+    }
+  }
+
   private void MovePlayer() {
     var targetPos = rb.position + (moveInput.normalized * (moveSpeed * Time.fixedDeltaTime));
     var clampedX = Mathf.Clamp(targetPos.x, -xBound, xBound);
@@ -50,9 +66,9 @@ public class PlayerController : Singleton<PlayerController> {
     rb.MovePosition(new Vector2(clampedX, clampedY));
   }
 
-  private void FaceMouse() {
-    var mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-    Vector2 direction = mousePos - transform.position;
-    transform.up = direction;
+  private void RotateShieldsWithMouseDelta() {
+    Vector2 mouseDelta = Mouse.current.delta.ReadValue();
+    shieldRotation += -mouseDelta.x * rotationSensitivity;
+    transform.rotation = Quaternion.Euler(0, 0, shieldRotation);
   }
 }

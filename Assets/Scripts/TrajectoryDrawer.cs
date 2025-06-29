@@ -24,10 +24,6 @@ public class MissileTrajectoryDrawer : MonoBehaviour {
     missileColor = GetComponent<EnemyMissile>().MissileData.color;
   }
 
-  private void FixedUpdate() {
-    DrawTrajectory();
-  }
-
   private void InitializeRadius() {
     CircleCollider2D circleCollider = GetComponent<CircleCollider2D>();
     if (circleCollider != null) {
@@ -37,7 +33,7 @@ public class MissileTrajectoryDrawer : MonoBehaviour {
     }
   }
 
-  private void DrawTrajectory() {
+  public void DrawTrajectory() {
     Vector2 startPos = transform.position;
     Vector2 direction = rb.linearVelocity.normalized;
 
@@ -57,17 +53,11 @@ public class MissileTrajectoryDrawer : MonoBehaviour {
         bounces++;
 
         if (hit.collider.TryGetComponent(out PlayerShield shield) && shield.shieldColor == missileColor) {
-          // Get the collision point and normal using the same method as Unity's physics
-          Vector2 circleCenter = currentPos + currentDir * hit.distance;
-
-          // Use the hit normal directly from CircleCast, which accounts for rotation and scale
           Vector2 contactNormal = hit.normal;
 
           // Position the line at the circle center when touching
           Vector2 circleCenterAtHit = hit.point + contactNormal * sourceObjectRadius;
           line.SetPosition(line.positionCount - 1, circleCenterAtHit);
-
-          // Show impact shadow at the collision point
           ShowImpactShadow(circleCenterAtHit);
 
           currentPos = hit.point + contactNormal * (sourceObjectRadius + 0.01f);
@@ -76,18 +66,22 @@ public class MissileTrajectoryDrawer : MonoBehaviour {
           line.SetPosition(line.positionCount - 1, hit.point);
         }
       } else {
-        // draw last straight segment
-        Vector2 end = currentPos + currentDir * segmentLength;
-        line.positionCount += 1;
-        line.SetPosition(line.positionCount - 1, end);
-
-        // Hide impact shadow when no collision
-        if (bounces == 0) {
+        if (bounces > 0) {
+          // draw last straight segment
+          Vector2 end = currentPos + currentDir * segmentLength;
+          line.positionCount += 1;
+          line.SetPosition(line.positionCount - 1, end);
+        } else {
           HideImpactShadow();
         }
         break;
       }
     }
+  }
+
+  public void HideTrajectory() {
+    line.positionCount = 0;
+    HideImpactShadow();
   }
 
   private void ShowImpactShadow(Vector2 position) {

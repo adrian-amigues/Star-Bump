@@ -5,15 +5,16 @@ public class EnemyMissile : MonoBehaviour {
 
   public MissileData MissileData => missileData;
 
-  // private bool hasHitPlayer;
   private bool hasHitShield;
   private Rigidbody2D rb;
   private Transform target;
   private SpriteRenderer sr;
+  private MissileTrajectoryDrawer trajectoryDrawer;
 
   private void Awake() {
     rb = GetComponent<Rigidbody2D>();
     sr = GetComponent<SpriteRenderer>();
+    trajectoryDrawer = GetComponent<MissileTrajectoryDrawer>();
   }
 
   private void Start() {
@@ -23,8 +24,10 @@ public class EnemyMissile : MonoBehaviour {
   }
 
   private void FixedUpdate() {
-    if (hasHitShield) return;
-    HomeTowardsTarget();
+    if (!hasHitShield) {
+      HomeTowardsTarget();
+    }
+    trajectoryDrawer.DrawTrajectory();
   }
 
   void OnTriggerEnter2D(Collider2D other) {

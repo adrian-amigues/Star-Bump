@@ -15,9 +15,7 @@ public class PlayerShield : MonoBehaviour {
 
   private void OnCollisionEnter2D(Collision2D collision) {
     if (collision.gameObject.TryGetComponent(out EnemyMissile missile)) {
-      Debug.Log("Shield hit missile: " + missile.MissileData.color);
       if (missile.MissileData.color != shieldColor) {
-        Debug.Log("Shield hit shield: " + shieldColor);
         animator.SetTrigger("Deactivate");
       }
     }

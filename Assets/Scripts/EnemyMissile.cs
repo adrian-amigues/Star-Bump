@@ -43,6 +43,10 @@ public class EnemyMissile : MonoBehaviour {
       if (shield.shieldColor == MissileData.color) {
         hasHitShield = true;
       }
+    } else if (other.gameObject.TryGetComponent(out EnemyMissile otherMissile)) {
+      if (otherMissile.MissileData.color == MissileData.color) {
+        HandleSameColorMissileCollision(otherMissile);
+      }
     }
   }
 
@@ -52,7 +56,7 @@ public class EnemyMissile : MonoBehaviour {
   }
 
   private void HandlePlayerCollision() {
-    Debug.Log("Hit player");
+    PlayerHealth.Instance.TakeDamage(1);
     TriggerDestroyVfx();
     Destroy(gameObject);
   }
@@ -72,7 +76,7 @@ public class EnemyMissile : MonoBehaviour {
     // Apply a small steering force toward the player
     rb.AddForce(toTarget * MissileData.acceleration, ForceMode2D.Force);
 
-    if (rb.linearVelocity.magnitude > MissileData.maxSpeed) {
+    if (!hasHitShield && rb.linearVelocity.magnitude > MissileData.maxSpeed) {
       rb.linearVelocity = rb.linearVelocity.normalized * MissileData.maxSpeed;
     }
   }
@@ -80,12 +84,22 @@ public class EnemyMissile : MonoBehaviour {
   private void TriggerDestroyVfx() {
     var particleSystem = MissileData.destroyVfx.GetComponent<ParticleSystem>();
     var explosionEmissionArc = particleSystem.shape.arc;
-    // This is so that the arc is centered on the vector opposite to the missile's direction
-    var centerArcRotation = 180f + ((180f - explosionEmissionArc) / 2f);
-    var vfxRotation = Quaternion.Euler(0, 0, transform.eulerAngles.z + centerArcRotation);
+    var direction = rb.linearVelocity.normalized;
+
+    // The VFX arc can't be rotated by default, so we need to calculate the rotation here so that further computations are easier
+    var arcRotationToCenterTop = (180f - explosionEmissionArc) / 2f;
+    // Get the angle from the direction vector and add 180 degrees to face opposite
+    var missileDirectionAngle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
+    var vfxRotation = Quaternion.Euler(0, 0, 180 - missileDirectionAngle + arcRotationToCenterTop);
 
     var vfxInstance = Instantiate(MissileData.destroyVfx, transform.position, vfxRotation);
+
     var particleMain = vfxInstance.GetComponent<ParticleSystem>().main;
     particleMain.startColor = new ParticleSystem.MinMaxGradient(sr.color);
+  }
+
+  private void HandleSameColorMissileCollision(EnemyMissile otherMissile) {
+    TriggerDestroyVfx();
+    Destroy(gameObject);
   }
 }

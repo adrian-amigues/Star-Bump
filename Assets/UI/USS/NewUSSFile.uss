@@ -1,0 +1,27 @@
+#HealthBar .unity-progress-bar__container {
+    max-height: 32px;
+}
+
+#HealthBar .unity-progress-bar__background {
+    background-color: rgba(228, 2, 2, 0.16);
+    border-left-color: rgba(255, 0, 0, 0.31);
+    border-right-color: rgba(255, 0, 0, 0.31);
+    border-top-color: rgba(255, 0, 0, 0.31);
+    border-bottom-color: rgba(255, 0, 0, 0.31);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+#HealthBar .unity-progress-bar__progress {
+    background-color: rgb(210, 32, 32);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+#HealthBar Label {
+    display: none;
+}

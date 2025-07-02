@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1791255502653068756}
   - component: {fileID: 1538838667673487760}
   m_Layer: 0
-  m_Name: Ennemy Missile
+  m_Name: Missile_base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f52a145a38c95bb4aa4608675e0454a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missileData: {fileID: 11400000, guid: f5e1765969c7c0c42a69f5191e9a6875, type: 2}
+  missileData: {fileID: 0}
 --- !u!114 &1791255502653068756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +195,7 @@ LineRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 931004327143063086}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0

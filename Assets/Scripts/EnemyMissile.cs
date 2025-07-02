@@ -52,7 +52,7 @@ public class EnemyMissile : MonoBehaviour {
 
   public void Initialize(MissileData data) {
     missileData = data;
-    sr.color = missileData.visualColor;
+    // sr.color = missileData.visualColor;
   }
 
   private void HandlePlayerCollision() {

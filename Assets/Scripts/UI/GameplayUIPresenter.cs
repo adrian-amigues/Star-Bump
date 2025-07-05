@@ -6,7 +6,7 @@ public class GameplayUIPresenter : MonoBehaviour {
 
   private ProgressBar healthBar;
 
-  private PlayerHealth playerHealth;
+  private Damageable playerHealth;
 
   private void Start() {
     InitializeUI();
@@ -19,7 +19,7 @@ public class GameplayUIPresenter : MonoBehaviour {
   }
 
   private void InitializeModels() {
-    playerHealth = PlayerHealth.Instance;
+    playerHealth = PlayerController.Instance.GetComponent<Damageable>();
     playerHealth.OnHealthChanged += UpdateHealthUI;
 
     UpdateHealthUI();

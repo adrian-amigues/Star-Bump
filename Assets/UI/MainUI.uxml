@@ -1,6 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/USS/NewUSSFile.uss?fileID=7433441132597879392&amp;guid=f0aaae7992312644bbe0bde200eeab2b&amp;type=3#NewUSSFile" />
-    <ui:VisualElement name="HealthContainer" style="flex-grow: 1; flex-direction: column-reverse; margin-bottom: 60px; margin-left: 100px;">
+    <ui:VisualElement name="HealthContainer" style="flex-grow: 1; flex-direction: column-reverse; margin-bottom: 60px; margin-left: 100px; position: absolute; top: 0; right: 0; bottom: 0; left: 0;">
         <ui:ProgressBar value="83.1" title="my-progress" name="HealthBar" style="width: 400px; flex-direction: column; overflow: visible; max-height: none; justify-content: flex-start; align-items: stretch; height: auto;" />
     </ui:VisualElement>
+    <ui:VisualElement name="MiniHealthBarContainer" class="MiniHealthBarContainer" />
 </ui:UXML>

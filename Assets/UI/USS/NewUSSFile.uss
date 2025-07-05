@@ -25,3 +25,52 @@
 #HealthBar Label {
     display: none;
 }
+
+#MiniHealthBarContainer {
+    flex-grow: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+#MiniHealthBarContainer TemplateContainer {
+    position: absolute;
+}
+
+/* .miniHealthBarTemplateContainer {
+    position: absolute;
+} */
+
+#MiniHealthBarContainer .mini-health-progress-bar {
+    width: 100px;
+    margin: 0;
+    padding: 0;
+}
+
+#MiniHealthBarContainer .unity-progress-bar__container {
+    min-height: 8px;
+}
+
+#MiniHealthBarContainer .unity-progress-bar__background {
+    border-left-color: rgb(255, 0, 0);
+    border-right-color: rgb(255, 0, 0);
+    border-top-color: rgb(255, 0, 0);
+    border-bottom-color: rgb(255, 0, 0);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+#MiniHealthBarContainer .unity-progress-bar__progress {
+    margin: 0;
+    background-color: rgb(255, 0, 0);
+    height: 100%;
+}
+
+#MiniHealthBarContainer Label {
+    display: none;
+}

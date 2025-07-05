@@ -24,7 +24,7 @@ public class PlayerHealth : Singleton<PlayerHealth> {
       Die();
     }
 
-    OnHealthChanged.Invoke();
+    OnHealthChanged?.Invoke();
   }
 
   private void Die() {

@@ -32,7 +32,9 @@ public class EnemyMissile : MonoBehaviour {
 
   void OnTriggerEnter2D(Collider2D other) {
     if (other.gameObject.CompareTag("Player")) {
-      HandlePlayerCollision();
+      var playerDamageable = other.gameObject.GetComponentInParent<Damageable>();
+      playerDamageable.TakeDamage(missileData.damage);
+      HandleMissileCollision();
     }
   }
 
@@ -45,20 +47,12 @@ public class EnemyMissile : MonoBehaviour {
       }
     } else if (other.gameObject.TryGetComponent(out EnemyMissile otherMissile)) {
       if (otherMissile.MissileData.color == MissileData.color) {
-        HandleSameColorMissileCollision(otherMissile);
+        HandleMissileCollision();
       }
+    } else if (other.gameObject.TryGetComponent(out Damageable damageable)) {
+      damageable.TakeDamage(missileData.damage);
+      HandleMissileCollision();
     }
-  }
-
-  public void Initialize(MissileData data) {
-    missileData = data;
-    // sr.color = missileData.visualColor;
-  }
-
-  private void HandlePlayerCollision() {
-    PlayerHealth.Instance.TakeDamage(1);
-    TriggerDestroyVfx();
-    Destroy(gameObject);
   }
 
   private void LaunchMissile() {
@@ -98,7 +92,7 @@ public class EnemyMissile : MonoBehaviour {
     particleMain.startColor = new ParticleSystem.MinMaxGradient(sr.color);
   }
 
-  private void HandleSameColorMissileCollision(EnemyMissile otherMissile) {
+  private void HandleMissileCollision() {
     TriggerDestroyVfx();
     Destroy(gameObject);
   }

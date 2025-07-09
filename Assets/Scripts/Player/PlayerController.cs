@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,6 +17,8 @@ public class PlayerController : Singleton<PlayerController> {
   private Rigidbody2D rb;
   private float shieldRotation = 0f;
   private Vector2 lastPosition;
+  private bool isPlayerDead = false;
+  private float deathSlowDownDuration = 1f;
 
   protected override void Awake() {
     base.Awake();
@@ -28,6 +31,11 @@ public class PlayerController : Singleton<PlayerController> {
     controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
   }
 
+  private void Start() {
+    GetComponent<Damageable>().OnDeath += HandlePlayerDeathStart;
+    GetComponent<PlayerDeathEffects>().OnPlayerExploded += HandlePlayerExploded;
+  }
+
   private void Update() {
     if (Keyboard.current.escapeKey.wasPressedThisFrame) {
       SetCursorLockState(!Cursor.visible);
@@ -35,6 +43,8 @@ public class PlayerController : Singleton<PlayerController> {
   }
 
   private void FixedUpdate() {
+    if (isPlayerDead) return;
+
     MovePlayer();
     RotateShieldsWithMouseDelta();
     UpdateVelocityTracking();
@@ -80,5 +90,34 @@ public class PlayerController : Singleton<PlayerController> {
     Vector2 mouseDelta = Mouse.current.delta.ReadValue();
     shieldRotation += -mouseDelta.x * rotationSensitivity;
     transform.rotation = Quaternion.Euler(0, 0, shieldRotation);
+  }
+
+  private void HandlePlayerDeathStart() {
+    StartCoroutine(PlayerDeathSlowDownRoutine());
+  }
+
+  private IEnumerator PlayerDeathSlowDownRoutine() {
+    float elapsed = 0f;
+    float startSpeed = moveSpeed;
+
+    while (elapsed < deathSlowDownDuration) {
+      elapsed += Time.deltaTime;
+      float progress = elapsed / deathSlowDownDuration;
+
+      moveSpeed = Mathf.Lerp(startSpeed, 0f, progress);
+      yield return null;
+    }
+  }
+
+  private void HandlePlayerExploded() {
+    isPlayerDead = true;
+
+    var shipCollider = gameObject.GetComponentInChildren<PolygonCollider2D>();
+    shipCollider.gameObject.SetActive(false);
+
+    var shields = gameObject.GetComponentsInChildren<PlayerShield>();
+    foreach (var shield in shields) {
+      shield.gameObject.SetActive(false);
+    }
   }
 }

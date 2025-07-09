@@ -18,8 +18,11 @@ public class EnemyMissile : MonoBehaviour {
   }
 
   private void Start() {
-    target = PlayerController.Instance.transform;
+    if (PlayerController.Instance == null) {
+      return;
+    }
 
+    target = PlayerController.Instance?.transform;
     LaunchMissile();
   }
 
@@ -57,6 +60,7 @@ public class EnemyMissile : MonoBehaviour {
   }
 
   private void LaunchMissile() {
+    if (target == null) return;
     Vector2 direction = (target.position - transform.position).normalized;
     transform.up = direction;
 

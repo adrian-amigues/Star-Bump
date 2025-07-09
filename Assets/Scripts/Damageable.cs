@@ -10,6 +10,8 @@ public class Damageable : MonoBehaviour {
   [SerializeField] private bool shakeScreenOnDamage = false;
   [SerializeField] private int maxHealth = 3;
 
+  public Action OnDeath;
+
   public int MaxHealth => maxHealth;
   public Transform MiniHealthBarPosition => miniHealthBarPosition;
   public int CurrentHealth { get; private set; }
@@ -52,5 +54,6 @@ public class Damageable : MonoBehaviour {
 
   private void HandleDeath() {
     Debug.Log("Damageable died");
+    OnDeath?.Invoke();
   }
 }

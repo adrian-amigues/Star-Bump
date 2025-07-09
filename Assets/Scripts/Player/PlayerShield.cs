@@ -56,4 +56,8 @@ public class PlayerShield : MonoBehaviour {
   public void OnActivateAnimationEnd() {
     shieldCollider.enabled = true;
   }
+
+  public void DisableAnimator() {
+    animator.enabled = false;
+  }
 }

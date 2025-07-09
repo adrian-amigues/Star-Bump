@@ -24,7 +24,7 @@ public class MiniHealthBarPresenter : MonoBehaviour {
     foreach (var kvp in activeHealthBars) {
       Damageable damageable = kvp.Key;
       VisualElement healthBarElement = kvp.Value;
-      Debug.Log($"Health bar element: {healthBarElement}");
+      // Debug.Log($"Health bar element: {healthBarElement}");
 
       UpdateHealthBarPosition(damageable, healthBarElement);
     }
@@ -82,27 +82,30 @@ public class MiniHealthBarPresenter : MonoBehaviour {
   private void UpdateHealthBarPosition(Damageable damageable, VisualElement healthBarElement) {
     if (damageable == null || healthBarElement == null || mainCamera == null) return;
 
-    Vector3 healthBarWorldPos;
+    var progressBar = healthBarElement.Q<ProgressBar>();
+    if (progressBar == null) return;
+
+    Vector3 centeredPosition;
     if (damageable.MiniHealthBarPosition != null) {
-      healthBarWorldPos = damageable.MiniHealthBarPosition.position;
+      centeredPosition = damageable.MiniHealthBarPosition.position;
     } else {
-      float healthBarWidth = healthBarElement.resolvedStyle.width;
-      float healthBarHeight = healthBarElement.resolvedStyle.height;
-
-      Vector3 centeredPosition = damageable.transform.position + Vector3.up * defaultMiniHealthBarOffset;
-
-      healthBarWorldPos = new Vector3(
-        centeredPosition.x - (healthBarWidth / 2f),
-        centeredPosition.y - (healthBarHeight / 2f),
-        centeredPosition.z
-      );
+      centeredPosition = damageable.transform.position + Vector3.up * defaultMiniHealthBarOffset;
     }
 
-    Vector3 screenPos = mainCamera.WorldToScreenPoint(healthBarWorldPos);
+    // Convert world position to screen position first
+    Vector3 screenPos = mainCamera.WorldToScreenPoint(centeredPosition);
 
-    healthBarElement.style.left = screenPos.x;
+    // Get health bar dimensions in pixels
+    float healthBarWidth = progressBar.resolvedStyle.width;
+    float healthBarHeight = progressBar.resolvedStyle.height;
+
+    // Center the health bar by offsetting screen position by half its dimensions
+    float centeredScreenX = screenPos.x - (healthBarWidth / 2f);
+    float centeredScreenY = screenPos.y - (healthBarHeight / 2f);
+
+    healthBarElement.style.left = centeredScreenX;
     // UI Toolkit uses top-left origin, Unity screen uses bottom-left
-    healthBarElement.style.top = Screen.height - screenPos.y;
+    healthBarElement.style.top = Screen.height - centeredScreenY;
   }
 
   public void ClearAllHealthBars() {

@@ -1,9 +1,12 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : Singleton<PlayerController> {
   [SerializeField] private float moveSpeed = 4f;
   [SerializeField] private float rotationSensitivity = 0.1f;
+
+  public Vector2 CurrentVelocity { get; private set; }
 
   private readonly float xBound = 8f;
   private readonly float yBound = 4f;
@@ -12,6 +15,7 @@ public class PlayerController : Singleton<PlayerController> {
   private Vector2 moveInput;
   private Rigidbody2D rb;
   private float shieldRotation = 0f;
+  private Vector2 lastPosition;
 
   protected override void Awake() {
     base.Awake();
@@ -33,6 +37,7 @@ public class PlayerController : Singleton<PlayerController> {
   private void FixedUpdate() {
     MovePlayer();
     RotateShieldsWithMouseDelta();
+    UpdateVelocityTracking();
   }
 
   private void OnEnable() {
@@ -47,6 +52,11 @@ public class PlayerController : Singleton<PlayerController> {
     if (hasFocus) {
       SetCursorLockState(true);
     }
+  }
+
+  private void UpdateVelocityTracking() {
+    CurrentVelocity = (rb.position - lastPosition) / Time.fixedDeltaTime;
+    lastPosition = rb.position;
   }
 
   private void SetCursorLockState(bool isLocked) {

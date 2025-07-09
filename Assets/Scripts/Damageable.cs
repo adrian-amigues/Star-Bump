@@ -1,9 +1,13 @@
 using System;
+using TriInspector;
 using UnityEngine;
 
 public class Damageable : MonoBehaviour {
   [SerializeField] private bool showMiniHealthBar = false;
+  [ShowIf("showMiniHealthBar")]
   [SerializeField] private Transform miniHealthBarPosition;
+
+  [SerializeField] private bool shakeScreenOnDamage = false;
   [SerializeField] private int maxHealth = 3;
 
   public int MaxHealth => maxHealth;
@@ -40,6 +44,9 @@ public class Damageable : MonoBehaviour {
       HandleDeath();
     }
 
+    if (shakeScreenOnDamage) {
+      ScreenShakeManager.Instance.ShakeScreen();
+    }
     OnHealthChanged?.Invoke();
   }
 

@@ -26,6 +26,7 @@ public class EnemyMissile : MonoBehaviour {
   private void FixedUpdate() {
     if (!hasHitShield) {
       HomeTowardsTarget();
+      LimitSpeed();
     }
     trajectoryDrawer.DrawTrajectory();
   }
@@ -64,13 +65,12 @@ public class EnemyMissile : MonoBehaviour {
 
   private void HomeTowardsTarget() {
     if (!target) return;
-
     Vector2 toTarget = (target.position - transform.position).normalized;
-
-    // Apply a small steering force toward the player
     rb.AddForce(toTarget * MissileData.acceleration, ForceMode2D.Force);
+  }
 
-    if (!hasHitShield && rb.linearVelocity.magnitude > MissileData.maxSpeed) {
+  private void LimitSpeed() {
+    if (rb.linearVelocity.magnitude > MissileData.maxSpeed) {
       rb.linearVelocity = rb.linearVelocity.normalized * MissileData.maxSpeed;
     }
   }

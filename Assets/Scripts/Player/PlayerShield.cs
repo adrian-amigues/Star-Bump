@@ -21,6 +21,28 @@ public class PlayerShield : MonoBehaviour {
     }
   }
 
+  private void OnCollisionExit2D(Collision2D collision) {
+    if (collision.gameObject.TryGetComponent(out EnemyMissile missile)) {
+      if (missile.MissileData.color == shieldColor) {
+        AddMomentumToMissileAfterBounce(missile);
+      }
+    }
+  }
+
+  private void AddMomentumToMissileAfterBounce(EnemyMissile missile) {
+    var missileRb = missile.GetComponent<Rigidbody2D>();
+    Vector2 playerVelocity = PlayerController.Instance.CurrentVelocity;
+    Vector2 missileDirection = missileRb.linearVelocity.normalized;
+
+    // Check if player velocity aligns with missile direction
+    float alignment = Vector2.Dot(playerVelocity, missileDirection);
+
+    if (alignment > 0) {
+      float momentumTransfer = 0.7f * alignment;
+      missileRb.linearVelocity += missileDirection * momentumTransfer;
+    }
+  }
+
   private IEnumerator ShieldCooldownRoutine() {
     yield return new WaitForSeconds(shieldCooldown);
     animator.SetTrigger("Activate");

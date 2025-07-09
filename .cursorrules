@@ -10,7 +10,55 @@ This is a Unity 2D physics-based game where missiles bounce off shields and inte
 - Unity Input System: https://docs.unity3d.com/Packages/com.unity.inputsystem@1.7/manual/
 - Unity URP: https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@latest/
 - Unity ScriptableObjects: https://docs.unity3d.com/Manual/class-ScriptableObject.html
+- Unity Cinemachine: https://docs.unity3d.com/Packages/com.unity.cinemachine@latest/
+- Unity Timeline: https://docs.unity3d.com/Packages/com.unity.timeline@latest/
+- Unity Visual Scripting: https://docs.unity3d.com/Packages/com.unity.visualscripting@latest/
 - C# Unity Scripting: https://docs.unity3d.com/ScriptReference/
+
+## Modern Unity Preferences (CRITICAL)
+**Always prefer Unity's built-in, modern solutions over custom implementations:**
+
+### Camera & Effects
+- **PREFER**: Cinemachine Virtual Cameras over manual camera scripts
+- **PREFER**: Cinemachine Impulse Sources for screenshake over custom transform manipulation
+- **PREFER**: Cinemachine State-Driven Camera for camera transitions
+- **PREFER**: Volume Framework for post-processing over manual effects
+- **PREFER**: URP Renderer Features for custom rendering over OnRenderImage
+
+### Animation & Timing
+- **PREFER**: Unity Timeline for complex sequences over custom coroutines
+- **PREFER**: Animation Events over polling in Update()
+- **PREFER**: Animator State Machines over manual state management
+- **PREFER**: DOTween (if available) or Unity's built-in Tweening over custom lerping
+- **PREFER**: Unity's Job System for heavy computations over single-threaded code
+
+### Audio
+- **PREFER**: Audio Mixer Groups over direct AudioSource manipulation
+- **PREFER**: Audio Snapshots for dynamic mixing over manual volume control
+- **PREFER**: Spatial Audio settings over custom 3D audio calculations
+
+### UI & Interface
+- **PREFER**: UI Toolkit (UIElements) for editor tools over IMGUI
+- **PREFER**: UI Toolkit for runtime UI in new projects
+- **PREFER**: Event System and UnityEvents over direct method calls
+- **PREFER**: Addressables for asset loading over Resources.Load()
+
+### Input & Controls
+- **PREFER**: Input System Actions over legacy Input class
+- **PREFER**: Input System's Player Input component over manual input polling
+- **PREFER**: Input System's UI Input Module for UI interaction
+
+### Data Management
+- **PREFER**: ScriptableObjects over static classes for game data
+- **PREFER**: Unity Cloud Build for CI/CD over custom build scripts
+- **PREFER**: Unity Analytics over custom analytics solutions
+- **PREFER**: Unity's Localization Package over custom localization
+
+### Performance & Optimization
+- **PREFER**: Unity's Object Pooling over custom pool implementations
+- **PREFER**: Unity Profiler modules over custom performance monitoring
+- **PREFER**: Unity's Memory Profiler for memory optimization
+- **PREFER**: GPU Instancing and Graphics.DrawMeshInstanced over individual renderers
 
 ## Unity-Specific Rules
 - Always use Unity's new Input System (InputSystem_Actions.cs already exists)
@@ -18,8 +66,24 @@ This is a Unity 2D physics-based game where missiles bounce off shields and inte
 - Use Unity's component-based architecture - favor composition over inheritance
 - Follow Unity naming conventions: PascalCase for public fields, camelCase for private
 - Use [SerializeField] for private fields that need Inspector exposure
-<!-- - Always use RequireComponent attribute when components have dependencies -->
+- Always use RequireComponent attribute when components have dependencies
 - Prefer GetComponent<>() in Awake() or Start(), cache references when possible
+
+## Package Integration Guidelines
+**When suggesting solutions, prioritize in this order:**
+1. **Built-in Unity features** (no package needed)
+2. **Official Unity packages** (Cinemachine, Timeline, Visual Scripting, etc.)
+3. **Unity Registry packages** (verified by Unity)
+4. **Custom implementations** (only when above options don't exist)
+
+**Common Package Recommendations:**
+- Cinemachine: For all camera work beyond basic following
+- Timeline: For cutscenes, complex animations, and scripted sequences
+- Addressables: For dynamic content loading and asset management
+- Visual Scripting: For designers to create logic without coding
+- Localization: For multi-language support
+- Mathematics: For performance-critical math operations
+- Collections: For high-performance data structures
 
 ## Physics & 2D Specific
 - Use Physics2D methods for 2D physics (CircleCast, Raycast2D, etc.)
@@ -27,6 +91,8 @@ This is a Unity 2D physics-based game where missiles bounce off shields and inte
 - Use LayerMask for collision filtering
 - Prefer Rigidbody2D.linearVelocity over the deprecated velocity property
 - Use Physics2D.CircleCast for accurate collision prediction matching actual physics
+- Prefer Physics2D.OverlapCircle over manual distance calculations
+- Use ContactFilter2D for advanced collision filtering
 
 ## Code Style & Architecture
 - Use meaningful variable names that describe the game context
@@ -35,12 +101,25 @@ This is a Unity 2D physics-based game where missiles bounce off shields and inte
 - Implement Singleton pattern sparingly and only for true singletons
 - Always null-check before destroying GameObjects
 - Use coroutines for time-based operations and animations
+- Prefer UnityEvents over direct method calls for loose coupling
+- Use Unity's Logging system over Debug.Log for production builds
 
 ## Performance Considerations
 - Cache frequently accessed components in Awake() or Start()
 - Use object pooling for frequently instantiated objects (missiles, effects)
 - Avoid expensive operations in Update() - prefer FixedUpdate() for physics
 - Use CircleCast instead of multiple Raycasts when appropriate
+- Prefer Unity's Job System for heavy calculations
+- Use Unity Profiler to identify bottlenecks before optimizing
+- Consider GPU Instancing for rendering many similar objects
+
+## Modern Workflow Integration
+- Use Unity's Package Manager for dependency management
+- Leverage Unity Cloud Build for automated builds
+- Use Version Control integration (Plastic SCM or Git)
+- Prefer Unity's built-in testing framework for unit tests
+- Use Unity's Analytics for player behavior insights
+- Consider Unity's Multiplayer Netcode for networked features
 
 ## Game-Specific Context
 - Missiles have colors and bounce off matching shield colors
@@ -49,22 +128,47 @@ This is a Unity 2D physics-based game where missiles bounce off shields and inte
 - Player shield mechanics involve color matching and physics materials
 - Visual effects (VFX) are used for missile explosions
 - The game uses prefabs for reusable game objects
+- Consider Cinemachine for camera shake effects during explosions
+- Use Timeline for dramatic moments and boss introductions
 
 ## Error Handling
 - Always check for null references before component access
 - Use TryGetComponent<>() when component existence is uncertain
 - Validate ScriptableObject data before use
 - Handle edge cases in physics calculations (zero velocity, etc.)
+- Use Unity's built-in exception handling and logging
+- Implement graceful degradation for missing components
 
 ## Debugging & Maintenance
 - Use Debug.Log sparingly in production code
 - Prefer Unity's built-in profiler for performance analysis
 - Comment complex physics calculations and trajectory logic
 - Document public API methods and their expected behavior
+- Use Unity's Visual Scripting for rapid prototyping
+- Leverage Unity's built-in debugging tools (Frame Debugger, etc.)
 
 ## File Organization
 - Scripts go in Assets/Scripts/ with appropriate subfolders
 - Prefabs in Assets/Prefabs/
 - ScriptableObjects in Assets/ScriptableObjects/
 - Materials and Physics Materials in Assets/Materials/
+- Timeline assets in Assets/Timeline/
+- Cinemachine profiles in Assets/Cinemachine/
 - Follow the existing folder structure consistently
+- Use Assembly Definitions for large projects to improve compile times
+
+## Solution Decision Matrix
+**When asked to implement a feature, always consider this hierarchy:**
+
+1. **Is there a built-in Unity solution?** → Use it
+2. **Is there an official Unity package?** → Recommend it
+3. **Is there a Unity Registry package?** → Consider it
+4. **Does the feature require custom code?** → Implement with Unity best practices
+5. **Would a third-party solution be better?** → Only if significantly superior
+
+**Example Applications:**
+- Screenshake → Cinemachine Impulse Source (not custom transform code)
+- Audio mixing → Audio Mixer (not manual AudioSource control)
+- Complex animations → Timeline + Cinemachine (not pure code)
+- UI transitions → UI Toolkit animations (not custom tweening)
+- Save system → ScriptableObjects + JsonUtility (not custom serialization)

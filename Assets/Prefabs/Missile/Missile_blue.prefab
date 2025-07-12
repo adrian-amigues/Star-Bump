@@ -30,11 +30,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 5b011868c78ee1d418c44f71f068b265, type: 2}
     - target: {fileID: 3469223761407683517, guid: bcdcaf65e86e4cc4f8e29dbc33acc14c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.637
       objectReference: {fileID: 0}
     - target: {fileID: 3469223761407683517, guid: bcdcaf65e86e4cc4f8e29dbc33acc14c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.631
       objectReference: {fileID: 0}
     - target: {fileID: 3469223761407683517, guid: bcdcaf65e86e4cc4f8e29dbc33acc14c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -67,6 +67,18 @@ PrefabInstance:
     - target: {fileID: 3469223761407683517, guid: bcdcaf65e86e4cc4f8e29dbc33acc14c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4335616385985073692, guid: bcdcaf65e86e4cc4f8e29dbc33acc14c, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 0.9921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 4335616385985073692, guid: bcdcaf65e86e4cc4f8e29dbc33acc14c, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0.9921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 4335616385985073692, guid: bcdcaf65e86e4cc4f8e29dbc33acc14c, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0.21568629
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

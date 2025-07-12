@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 2059027411544938634}
   - component: {fileID: 2086183161846443778}
   - component: {fileID: 521585883924009876}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,6 +218,9 @@ MonoBehaviour:
   spawnPoint: {fileID: 5670812201341420042}
   spawnRate: 1
   initialDelay: 1
+  viewBlockingLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &521585883924009876
 MonoBehaviour:
   m_ObjectHideFlags: 0

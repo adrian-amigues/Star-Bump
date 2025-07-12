@@ -43,6 +43,8 @@ public class EnemyMissile : MonoBehaviour {
   }
 
   void OnTriggerExit2D(Collider2D collision) {
+    if (!collision.gameObject.activeInHierarchy || !this.gameObject.activeInHierarchy) return;
+
     if (collision.gameObject.CompareTag("GameAreaBoundary")) {
       HandleMissileCollision();
     }
@@ -55,9 +57,9 @@ public class EnemyMissile : MonoBehaviour {
         hasHitShield = true;
       }
     } else if (other.gameObject.TryGetComponent(out EnemyMissile otherMissile)) {
-      if (otherMissile.MissileData.color == MissileData.color) {
-        HandleMissileCollision();
-      }
+      // if (otherMissile.MissileData.color == MissileData.color) {
+      HandleMissileCollision();
+      // }
     } else if (other.gameObject.TryGetComponent(out Damageable damageable)) {
       damageable.TakeDamage(missileData.damage);
       HandleMissileCollision();

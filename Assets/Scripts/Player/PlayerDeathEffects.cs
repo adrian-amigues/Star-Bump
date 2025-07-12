@@ -33,6 +33,7 @@ public class PlayerDeathEffects : MonoBehaviour {
       particleSystem?.Play();
     }
     OnPlayerExploded?.Invoke();
+    ScreenShakeManager.Instance.ShakeScreen();
   }
 
   private IEnumerator FadeOutRoutine() {

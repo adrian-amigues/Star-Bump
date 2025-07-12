@@ -19,6 +19,7 @@ public class Damageable : MonoBehaviour {
   public event Action OnHealthChanged;
 
   private MiniHealthBarPresenter miniHealthBarPresenter;
+  private bool isInvulnerable = false;
 
   private void Awake() {
     CurrentHealth = maxHealth;
@@ -37,7 +38,14 @@ public class Damageable : MonoBehaviour {
     }
   }
 
+  private void HandleDeath() {
+    Debug.Log("Damageable died");
+    OnDeath?.Invoke();
+  }
+
   public void TakeDamage(int damage) {
+    if (isInvulnerable) return;
+
     CurrentHealth -= damage;
     Debug.Log("Damageable took " + damage + " damage. Current health: " + CurrentHealth);
 
@@ -52,8 +60,7 @@ public class Damageable : MonoBehaviour {
     OnHealthChanged?.Invoke();
   }
 
-  private void HandleDeath() {
-    Debug.Log("Damageable died");
-    OnDeath?.Invoke();
+  public void ToggleIsInvulnerable() {
+    isInvulnerable = !isInvulnerable;
   }
 }

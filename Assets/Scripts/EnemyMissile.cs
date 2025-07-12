@@ -28,10 +28,10 @@ public class EnemyMissile : MonoBehaviour {
 
   private void FixedUpdate() {
     if (!hasHitShield) {
-      HomeTowardsTarget();
+      // HomeTowardsTarget();
       LimitSpeed();
     }
-    trajectoryDrawer.DrawTrajectory();
+    trajectoryDrawer?.DrawTrajectory();
   }
 
   void OnTriggerEnter2D(Collider2D other) {
@@ -42,9 +42,14 @@ public class EnemyMissile : MonoBehaviour {
     }
   }
 
+  void OnTriggerExit2D(Collider2D collision) {
+    if (collision.gameObject.CompareTag("GameAreaBoundary")) {
+      HandleMissileCollision();
+    }
+  }
+
   void OnCollisionEnter2D(Collision2D other) {
     if (other.gameObject.TryGetComponent(out PlayerShield shield)) {
-      Debug.Log("Hit shield color: " + shield.shieldColor);
 
       if (shield.shieldColor == MissileData.color) {
         hasHitShield = true;

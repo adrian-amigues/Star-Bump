@@ -15,6 +15,7 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
     debugOverlayContainer = root.Q<ScrollView>();
 
     AddDebugActions();
+    InitialDebugState();
   }
 
   void Update() {
@@ -39,16 +40,29 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
   private void AddDebugActions() {
     // Trigger player death action
     var triggerPlayerDeathButton = new Button();
-    triggerPlayerDeathButton.text = "Trigger Player Death (q key)";
+    triggerPlayerDeathButton.text = "Trigger Player Death (1 key)";
     LinkButtonToAction(
       triggerPlayerDeathButton,
       () => {
         PlayerController.Instance.GetComponent<Damageable>().TakeDamage(100);
         Debug.Log("Player death triggered");
       },
-      Key.Q
+      Key.Digit1
     );
     debugOverlayContainer.Add(triggerPlayerDeathButton);
+
+    // Toggle player invulnerability action
+    var togglePlayerInvulnerabilityButton = new Button();
+    togglePlayerInvulnerabilityButton.text = "Toggle Player Invulnerability (2 key)";
+    LinkButtonToAction(
+      togglePlayerInvulnerabilityButton,
+      () => {
+        PlayerController.Instance.GetComponent<Damageable>().ToggleIsInvulnerable();
+        Debug.Log("Player invulnerability toggled");
+      },
+      Key.Digit2
+    );
+    debugOverlayContainer.Add(togglePlayerInvulnerabilityButton);
   }
 
   private void LinkButtonToAction(Button button, Action action, Key keyCode = Key.None) {
@@ -56,5 +70,9 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
     if (keyCode != Key.None) {
       debugActions.Add(keyCode, action);
     }
+  }
+
+  private void InitialDebugState() {
+    PlayerController.Instance.GetComponent<Damageable>().ToggleIsInvulnerable();
   }
 }

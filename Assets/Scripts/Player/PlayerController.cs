@@ -9,9 +9,6 @@ public class PlayerController : Singleton<PlayerController> {
 
   public Vector2 CurrentVelocity { get; private set; }
 
-  private readonly float xBound = 8f;
-  private readonly float yBound = 4f;
-
   private InputSystem_Actions controls;
   private Vector2 moveInput;
   private Rigidbody2D rb;
@@ -80,10 +77,10 @@ public class PlayerController : Singleton<PlayerController> {
 
   private void MovePlayer() {
     var targetPos = rb.position + (moveInput.normalized * (moveSpeed * Time.fixedDeltaTime));
-    var clampedX = Mathf.Clamp(targetPos.x, -xBound, xBound);
-    var clampedY = Mathf.Clamp(targetPos.y, -yBound, yBound);
 
-    rb.MovePosition(new Vector2(clampedX, clampedY));
+    targetPos = PlayerMovementBounds.Instance.ClampToBounds(targetPos);
+
+    rb.MovePosition(targetPos);
   }
 
   private void RotateShieldsWithMouseDelta() {

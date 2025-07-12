@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2178519713617197338}
   - component: {fileID: 8073699466166352912}
   - component: {fileID: 2567890166100990343}
-  - component: {fileID: 1791255502653068756}
   - component: {fileID: 1538838667673487760}
   m_Layer: 0
   m_Name: Missile_base
@@ -168,24 +167,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missileData: {fileID: 0}
---- !u!114 &1791255502653068756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 931004327143063086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f310ed93559981409d9960080d74548, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  segmentLength: 5
-  bounceLayers:
-    serializedVersion: 2
-    m_Bits: 256
-  maxBounces: 1
-  impactShadowPrefab: {fileID: 1565465638455482137, guid: acb3ef737446f2f4983e469d2f9bc53d, type: 3}
 --- !u!120 &1538838667673487760
 LineRenderer:
   serializedVersion: 2
@@ -194,7 +175,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 931004327143063086}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

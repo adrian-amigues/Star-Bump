@@ -16,6 +16,7 @@ public class EnemySpawner : MonoBehaviour {
 
   private void Start() {
     InvokeRepeating("SpawnEnemy", initialDelay, spawnRate);
+    GetComponent<Damageable>().OnDeath += HandleDeath;
   }
 
   private void SpawnEnemy() {
@@ -30,5 +31,14 @@ public class EnemySpawner : MonoBehaviour {
     Debug.Log($"Hit collider tag: {hit.collider?.gameObject.tag}");
 
     return hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("TrajectoryStop");
+  }
+
+  private void HandleDeath() {
+    CancelInvoke("SpawnEnemy");
+    var particleSystems = GetComponentsInChildren<ParticleSystem>();
+    foreach (var particleSystem in particleSystems) {
+      particleSystem.Play();
+    }
+    Destroy(gameObject);
   }
 }

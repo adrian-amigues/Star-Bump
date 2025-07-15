@@ -63,6 +63,21 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
       Key.Digit2
     );
     debugOverlayContainer.Add(togglePlayerInvulnerabilityButton);
+
+    // Kill all spawners
+    var killSpawnersButton = new Button();
+    killSpawnersButton.text = "Kill All Spawners (3 key)";
+    LinkButtonToAction(
+      killSpawnersButton,
+      () => {
+        var spawners = FindObjectsByType<EnemySpawner>(FindObjectsSortMode.None);
+        foreach (var spawner in spawners) {
+          spawner.GetComponent<Damageable>().TakeDamage(100);
+        }
+      },
+      Key.Digit3
+    );
+    debugOverlayContainer.Add(killSpawnersButton);
   }
 
   private void LinkButtonToAction(Button button, Action action, Key keyCode = Key.None) {

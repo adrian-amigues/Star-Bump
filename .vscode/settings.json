@@ -3,5 +3,5 @@
     "files.exclude": {
         "**/*.meta": true
     },
-    "dotnet.defaultSolution": "Star Bump.sln"
+    "dotnet.defaultSolution": "Star-Bump.sln"
 }

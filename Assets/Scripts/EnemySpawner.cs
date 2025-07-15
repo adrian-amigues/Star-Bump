@@ -1,10 +1,15 @@
+using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using System.Threading;
+using System.Linq;
 
 public class EnemySpawner : MonoBehaviour {
   [SerializeField] private GameObject enemyPrefab;
   [SerializeField] private Transform spawnPoint;
   [SerializeField] private float spawnRate = 2f;
   [SerializeField] private float initialDelay = 1f;
+  [SerializeField] private float fadeOutDuration = 1f;
   // [SerializeField] private LayerMask viewBlockingLayers;
 
   private float playerHitCastDistance = 10f;
@@ -37,7 +42,27 @@ public class EnemySpawner : MonoBehaviour {
     CancelInvoke("SpawnEnemy");
     var particleSystems = GetComponentsInChildren<ParticleSystem>();
     foreach (var particleSystem in particleSystems) {
+      // particleSystem.transform.SetParent(null);
       particleSystem.Play();
+    }
+    FadeOutAndDestroyRoutine().Forget();
+  }
+
+  private async UniTaskVoid FadeOutAndDestroyRoutine() {
+    var spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+    var originalColors = spriteRenderers.Select(sr => sr.color).ToArray();
+
+    float elapsed = 0f;
+    while (elapsed < fadeOutDuration) {
+      elapsed += Time.deltaTime;
+      float progress = elapsed / fadeOutDuration;
+
+      for (int i = 0; i < spriteRenderers.Length; i++) {
+        var color = originalColors[i];
+        color.a = Mathf.Lerp(1f, 0f, progress);
+        spriteRenderers[i].color = color;
+      }
+      await UniTask.NextFrame();
     }
     Destroy(gameObject);
   }

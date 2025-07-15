@@ -816,6 +816,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   rotationSensitivity: 0.12
+  useTrackpadMode: 1
+  trackpadSensitivityMultiplier: 5
 --- !u!50 &1268812746
 Rigidbody2D:
   serializedVersion: 5
@@ -6947,21 +6949,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2963268278542871719, guid: 1c2c3e72808c4eb4c970e2882494bac5, type: 3}
-      propertyPath: m_FlipX
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3803083993486805173, guid: 1c2c3e72808c4eb4c970e2882494bac5, type: 3}
       propertyPath: m_Name
       value: Spawner_blue
       objectReference: {fileID: 0}
     - target: {fileID: 5172837568131323073, guid: 1c2c3e72808c4eb4c970e2882494bac5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.57
+      value: -3.45
       objectReference: {fileID: 0}
     - target: {fileID: 5172837568131323073, guid: 1c2c3e72808c4eb4c970e2882494bac5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.25
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 5172837568131323073, guid: 1c2c3e72808c4eb4c970e2882494bac5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6994,10 +6992,6 @@ PrefabInstance:
     - target: {fileID: 5172837568131323073, guid: 1c2c3e72808c4eb4c970e2882494bac5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6877884311278465746, guid: 1c2c3e72808c4eb4c970e2882494bac5, type: 3}
-      propertyPath: stopAction
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

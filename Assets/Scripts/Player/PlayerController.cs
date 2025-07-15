@@ -5,7 +5,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : Singleton<PlayerController> {
   [SerializeField] private float moveSpeed = 4f;
+
+  [Header("Rotation Settings")]
   [SerializeField] private float rotationSensitivity = 0.1f;
+  [SerializeField] private bool useTrackpadMode = false;
+  [SerializeField] private float trackpadSensitivityMultiplier = 3f;
 
   public Vector2 CurrentVelocity { get; private set; }
 
@@ -85,7 +89,13 @@ public class PlayerController : Singleton<PlayerController> {
 
   private void RotateShieldsWithMouseDelta() {
     Vector2 mouseDelta = Mouse.current.delta.ReadValue();
-    shieldRotation += -mouseDelta.x * rotationSensitivity;
+
+    float sensitivity = rotationSensitivity;
+    if (useTrackpadMode) {
+      sensitivity *= trackpadSensitivityMultiplier;
+    }
+
+    shieldRotation += -mouseDelta.x * sensitivity;
     transform.rotation = Quaternion.Euler(0, 0, shieldRotation);
   }
 

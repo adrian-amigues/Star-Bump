@@ -1,7 +1,8 @@
 {
-    "dotnet.preferCSharpExtension": true,
-    "files.exclude": {
-        "**/*.meta": true
-    },
-    "dotnet.defaultSolution": "Star-Bump.sln"
+  "dotnet.preferCSharpExtension": true,
+  "files.exclude": {
+    "**/*.meta": true
+  },
+  "dotnet.defaultSolution": "Star-Bump.sln",
+  "search.showLineNumbers": true
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyMissile : MonoBehaviour {
   [SerializeField] private MissileData missileData;
+  [SerializeField] private GameObject gameBoundsParticleSpawner;
 
   public MissileData MissileData => missileData;
 
@@ -43,9 +44,14 @@ public class EnemyMissile : MonoBehaviour {
   }
 
   void OnTriggerExit2D(Collider2D collision) {
-    if (!collision.gameObject.activeInHierarchy || !this.gameObject.activeInHierarchy) return;
+    if (!enabled || !collision.gameObject.activeInHierarchy || !this.gameObject.activeInHierarchy) return;
 
     if (collision.gameObject.CompareTag("GameAreaBoundary")) {
+      var gameAreaCenter = collision.transform.position;
+      var directionToCenter = gameAreaCenter - transform.position;
+      var angle = -Mathf.Atan2(directionToCenter.x, directionToCenter.y) * Mathf.Rad2Deg;
+
+      Instantiate(gameBoundsParticleSpawner, transform.position, Quaternion.Euler(0, 0, angle));
       HandleMissileCollision();
     }
   }

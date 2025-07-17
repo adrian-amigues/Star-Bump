@@ -11,7 +11,7 @@ public class EnemySpawner : MonoBehaviour {
   [SerializeField] private float spawnRate = 2f;
   [SerializeField] private float initialDelay = 1f;
 
-  private float playerHitCastDistance = 10f;
+  private float playerHitCastDistance = 20f;
   private LayerMask trajectoryStopLayers;
   private PlayableDirector timelineDirector;
 
@@ -41,8 +41,16 @@ public class EnemySpawner : MonoBehaviour {
 
   private void HandleDeath() {
     CancelInvoke("SpawnEnemy");
-    // FadeOutAndDestroyRoutine().Forget();
+    DisableAllColliders();
     timelineDirector.Play();
+    // FadeOutAndDestroyRoutine().Forget();
+  }
+
+  private void DisableAllColliders() {
+    var colliders = GetComponentsInChildren<Collider2D>();
+    foreach (var collider in colliders) {
+      collider.enabled = false;
+    }
   }
 
   // private async UniTaskVoid FadeOutAndDestroyRoutine() {

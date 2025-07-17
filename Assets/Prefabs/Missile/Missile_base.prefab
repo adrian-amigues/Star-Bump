@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missileData: {fileID: 0}
+  gameBoundsParticleSpawner: {fileID: 7278682019768884947, guid: f14f7491e52d8450a81f8dc019dd6693, type: 3}
 --- !u!120 &1538838667673487760
 LineRenderer:
   serializedVersion: 2

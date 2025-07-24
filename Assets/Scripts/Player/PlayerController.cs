@@ -24,8 +24,6 @@ public class PlayerController : Singleton<PlayerController> {
     base.Awake();
     rb = GetComponentInChildren<Rigidbody2D>();
 
-    SetCursorLockState(true);
-
     controls = new InputSystem_Actions();
     controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
     controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
@@ -34,12 +32,6 @@ public class PlayerController : Singleton<PlayerController> {
   private void Start() {
     GetComponentInChildren<Damageable>().OnDeath += HandlePlayerDeathStart;
     GetComponent<PlayerDeathEffects>().OnPlayerExploded += HandlePlayerExploded;
-  }
-
-  private void Update() {
-    if (Keyboard.current.escapeKey.wasPressedThisFrame) {
-      SetCursorLockState(!Cursor.visible);
-    }
   }
 
   private void FixedUpdate() {
@@ -55,21 +47,6 @@ public class PlayerController : Singleton<PlayerController> {
 
   private void OnDisable() {
     controls.Player.Disable();
-  }
-
-  private void OnApplicationFocus(bool hasFocus) {
-    if (hasFocus) {
-      SetCursorLockState(true);
-    }
-  }
-
-  private void SetCursorLockState(bool isLocked) {
-    Cursor.lockState = isLocked ? CursorLockMode.Locked : CursorLockMode.None;
-    Cursor.visible = !isLocked;
-
-    if (isLocked) {
-      Mouse.current.delta.ReadValue(); // Clear any stale delta
-    }
   }
 
   private void MovePlayer() {

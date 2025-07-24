@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7869663527085992549}
   - component: {fileID: 8545162944996557637}
-  - component: {fileID: 4971205908514083415}
   - component: {fileID: 2898434245538673471}
   - component: {fileID: 6075363767021370207}
   - component: {fileID: 741344976740789246}
@@ -91,33 +90,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &4971205908514083415
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2262498211686110359}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 0d651ab7e83c4124c8975fd68a0b5eda, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 0
 --- !u!70 &2898434245538673471
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -128,7 +100,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 0d651ab7e83c4124c8975fd68a0b5eda, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

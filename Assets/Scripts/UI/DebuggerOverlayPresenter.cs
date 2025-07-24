@@ -44,7 +44,7 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
     LinkButtonToAction(
       triggerPlayerDeathButton,
       () => {
-        PlayerController.Instance.GetComponent<Damageable>().TakeDamage(100);
+        PlayerController.Instance.GetComponentInChildren<Damageable>().TakeDamage(100);
         Debug.Log("Player death triggered");
       },
       Key.Digit1
@@ -57,7 +57,7 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
     LinkButtonToAction(
       togglePlayerInvulnerabilityButton,
       () => {
-        PlayerController.Instance.GetComponent<Damageable>().ToggleIsInvulnerable();
+        PlayerController.Instance.GetComponentInChildren<Damageable>().ToggleIsInvulnerable();
         Debug.Log("Player invulnerability toggled");
       },
       Key.Digit2
@@ -88,6 +88,6 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
   }
 
   private void InitialDebugState() {
-    PlayerController.Instance.GetComponent<Damageable>().ToggleIsInvulnerable();
+    PlayerController.Instance.GetComponentInChildren<Damageable>().ToggleIsInvulnerable();
   }
 }

@@ -19,7 +19,7 @@ public class GameplayUIPresenter : MonoBehaviour {
   }
 
   private void InitializeModels() {
-    playerHealth = PlayerController.Instance.GetComponent<Damageable>();
+    playerHealth = PlayerController.Instance.GetComponentInChildren<Damageable>();
     playerHealth.OnHealthChanged += UpdateHealthUI;
 
     UpdateHealthUI();

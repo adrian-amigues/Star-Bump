@@ -17,13 +17,12 @@ public class PlayerController : Singleton<PlayerController> {
   private Vector2 moveInput;
   private Rigidbody2D rb;
   private float shieldRotation = 0f;
-  private Vector2 lastPosition;
   private bool isPlayerDead = false;
   private float deathSlowDownDuration = 1f;
 
   protected override void Awake() {
     base.Awake();
-    rb = GetComponent<Rigidbody2D>();
+    rb = GetComponentInChildren<Rigidbody2D>();
 
     SetCursorLockState(true);
 
@@ -33,7 +32,7 @@ public class PlayerController : Singleton<PlayerController> {
   }
 
   private void Start() {
-    GetComponent<Damageable>().OnDeath += HandlePlayerDeathStart;
+    GetComponentInChildren<Damageable>().OnDeath += HandlePlayerDeathStart;
     GetComponent<PlayerDeathEffects>().OnPlayerExploded += HandlePlayerExploded;
   }
 
@@ -48,7 +47,6 @@ public class PlayerController : Singleton<PlayerController> {
 
     MovePlayer();
     RotateShieldsWithMouseDelta();
-    UpdateVelocityTracking();
   }
 
   private void OnEnable() {
@@ -65,11 +63,6 @@ public class PlayerController : Singleton<PlayerController> {
     }
   }
 
-  private void UpdateVelocityTracking() {
-    CurrentVelocity = (rb.position - lastPosition) / Time.fixedDeltaTime;
-    lastPosition = rb.position;
-  }
-
   private void SetCursorLockState(bool isLocked) {
     Cursor.lockState = isLocked ? CursorLockMode.Locked : CursorLockMode.None;
     Cursor.visible = !isLocked;
@@ -80,11 +73,18 @@ public class PlayerController : Singleton<PlayerController> {
   }
 
   private void MovePlayer() {
-    var targetPos = rb.position + (moveInput.normalized * (moveSpeed * Time.fixedDeltaTime));
+    Vector2 targetVelocity = moveInput.normalized * moveSpeed;
+    var currentPos = rb.position;
 
-    targetPos = PlayerMovementBounds.Instance.ClampToBounds(targetPos);
+    Vector2 predictedNextPosition = currentPos + targetVelocity * Time.fixedDeltaTime;
 
-    rb.MovePosition(targetPos);
+    if (!PlayerMovementBounds.Instance.IsWithinBounds(predictedNextPosition)) {
+      Vector2 clampedPosition = PlayerMovementBounds.Instance.ClampToBounds(predictedNextPosition);
+      rb.linearVelocity = (clampedPosition - currentPos) / Time.fixedDeltaTime;
+    } else {
+      rb.linearVelocity = targetVelocity;
+    }
+
   }
 
   private void RotateShieldsWithMouseDelta() {

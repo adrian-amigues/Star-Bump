@@ -7,6 +7,7 @@ public class EnemyMissile : MonoBehaviour {
   public MissileData MissileData => missileData;
 
   private bool hasHitShield;
+  private Vector2 lastVelocity;
   private Rigidbody2D rb;
   private Transform target;
   private SpriteRenderer sr;
@@ -32,15 +33,8 @@ public class EnemyMissile : MonoBehaviour {
       // HomeTowardsTarget();
       LimitSpeed();
     }
+    lastVelocity = rb.linearVelocity;
     trajectoryDrawer?.DrawTrajectory();
-  }
-
-  void OnTriggerEnter2D(Collider2D other) {
-    if (other.gameObject.CompareTag("Player")) {
-      var playerDamageable = other.gameObject.GetComponentInParent<Damageable>();
-      playerDamageable.TakeDamage(missileData.damage);
-      HandleMissileCollision();
-    }
   }
 
   void OnTriggerExit2D(Collider2D collision) {
@@ -57,16 +51,15 @@ public class EnemyMissile : MonoBehaviour {
   }
 
   void OnCollisionEnter2D(Collision2D other) {
-    if (other.gameObject.TryGetComponent(out PlayerShield shield)) {
-
+    if (other.collider.TryGetComponent(out PlayerShield shield)) {
       if (shield.shieldColor == MissileData.color) {
         hasHitShield = true;
       }
-    } else if (other.gameObject.TryGetComponent(out EnemyMissile otherMissile)) {
+    } else if (other.collider.TryGetComponent(out EnemyMissile otherMissile)) {
       // if (otherMissile.MissileData.color == MissileData.color) {
       HandleMissileCollision();
       // }
-    } else if (other.gameObject.TryGetComponent(out Damageable damageable)) {
+    } else if (other.collider.TryGetComponent(out Damageable damageable)) {
       damageable.TakeDamage(missileData.damage);
       HandleMissileCollision();
     }
@@ -93,15 +86,11 @@ public class EnemyMissile : MonoBehaviour {
   }
 
   private void TriggerDestroyVfx() {
-    var particleSystem = MissileData.destroyVfx.GetComponent<ParticleSystem>();
-    var explosionEmissionArc = particleSystem.shape.arc;
-    var direction = rb.linearVelocity.normalized;
+    var direction = lastVelocity.normalized;
 
-    // The VFX arc can't be rotated by default, so we need to calculate the rotation here so that further computations are easier
-    var arcRotationToCenterTop = (180f - explosionEmissionArc) / 2f;
     // Get the angle from the direction vector and add 180 degrees to face opposite
     var missileDirectionAngle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
-    var vfxRotation = Quaternion.Euler(0, 0, 180 - missileDirectionAngle + arcRotationToCenterTop);
+    var vfxRotation = Quaternion.Euler(0, 0, 180 - missileDirectionAngle);
 
     var vfxInstance = Instantiate(MissileData.destroyVfx, transform.position, vfxRotation);
 

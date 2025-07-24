@@ -33,8 +33,6 @@ public class EnemySpawner : MonoBehaviour {
   private bool HasPlayerInView() {
     Vector2 direction = PlayerController.Instance.transform.position - spawnPoint.position;
     RaycastHit2D hit = Physics2D.Raycast(spawnPoint.position, direction, playerHitCastDistance, trajectoryStopLayers);
-    Debug.Log($"Hit: {hit.collider}");
-    Debug.Log($"Hit collider tag: {hit.collider?.gameObject.tag}");
 
     return hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("TrajectoryStop");
   }

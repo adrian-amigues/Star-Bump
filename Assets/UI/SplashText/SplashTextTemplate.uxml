@@ -1,0 +1,6 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/SplashText/SplashTextUSS.uss?fileID=7433441132597879392&amp;guid=e91d80e90ad2d4443a1f5ccbacfbd5d9&amp;type=3#SplashTextUSS" />
+    <ui:VisualElement class="splash-text-container" style="top: auto; left: auto; bottom: auto; align-items: flex-end; margin-top: 16px; margin-right: 16px; margin-bottom: 16px; margin-left: 16px;">
+        <ui:Label text="Level 1" name="Label" triple-click-selects-line="false" class="splash-text" style="color: rgb(198, 255, 250); -unity-font-definition: url(&quot;project://database/Assets/Feel/NiceVibrations/Demo/Common/Fonts/BIG%20JOHN.otf?fileID=12800000&amp;guid=7015f2d2ce595844e9fe6e0c3bd8d27b&amp;type=3#BIG JOHN&quot;); -unity-text-align: upper-right; -unity-font-style: normal; font-size: 42px;" />
+    </ui:VisualElement>
+</ui:UXML>

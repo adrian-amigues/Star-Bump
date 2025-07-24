@@ -24,7 +24,6 @@ public class MiniHealthBarPresenter : MonoBehaviour {
     foreach (var kvp in activeHealthBars) {
       Damageable damageable = kvp.Key;
       VisualElement healthBarElement = kvp.Value;
-      // Debug.Log($"Health bar element: {healthBarElement}");
 
       UpdateHealthBarPosition(damageable, healthBarElement);
     }

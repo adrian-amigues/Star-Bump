@@ -13,7 +13,7 @@ public class PlayerDeathEffects : MonoBehaviour {
   public Action OnPlayerExploded;
 
   private void Start() {
-    GetComponent<Damageable>().OnDeath += HandlePlayerDeath;
+    GetComponentInChildren<Damageable>().OnDeath += HandlePlayerDeath;
     playerShields = rendererList.Select(r => r.GetComponent<PlayerShield>())
       .Where(s => s != null)
       .ToArray();
@@ -25,8 +25,9 @@ public class PlayerDeathEffects : MonoBehaviour {
   }
 
   private IEnumerator MainPlayerDeathRoutine() {
+    DisableAllColliders();
     StartCoroutine(FadeOutRoutine());
-    yield return new WaitForSeconds(1f);
+    yield return new WaitForSeconds(fadeOutDuration);
 
     foreach (var vfx in deathVfxList) {
       var particleSystem = vfx.GetComponent<ParticleSystem>();
@@ -55,6 +56,13 @@ public class PlayerDeathEffects : MonoBehaviour {
         spriteRenderer.color = color;
       }
       yield return null;
+    }
+  }
+
+  private void DisableAllColliders() {
+    var colliders = GetComponentsInChildren<Collider2D>();
+    foreach (var collider in colliders) {
+      collider.enabled = false;
     }
   }
 }

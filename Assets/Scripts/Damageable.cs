@@ -39,7 +39,6 @@ public class Damageable : MonoBehaviour {
   }
 
   private void HandleDeath() {
-    Debug.Log("Damageable died");
     OnDeath?.Invoke();
     miniHealthBarPresenter?.UnregisterDamageable(this);
   }
@@ -48,7 +47,6 @@ public class Damageable : MonoBehaviour {
     if (isInvulnerable) return;
 
     CurrentHealth -= damage;
-    Debug.Log("Damageable took " + damage + " damage. Current health: " + CurrentHealth);
 
     if (CurrentHealth <= 0) {
       CurrentHealth = 0;

@@ -450,7 +450,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce73f118ba094183a4433841dbdbac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 4171490636658980762}
 --- !u!4 &818929285
 Transform:
   m_ObjectHideFlags: 0
@@ -1420,6 +1419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10151932fcd114bcfa3770f57d9dcd99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursorTexture: {fileID: 2800000, guid: 0a46042ad0768488e9c795610aca92fc, type: 3}
 --- !u!4 &1805932440
 Transform:
   m_ObjectHideFlags: 0
@@ -1725,11 +1725,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbd07355e04a84d76a5982e6187bb968, type: 3}
---- !u!1 &4171490636658980762 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2669387775780373206, guid: fbd07355e04a84d76a5982e6187bb968, type: 3}
-  m_PrefabInstance: {fileID: 4171490636658980761}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8612108694658469096
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2122,6 +2117,6 @@ SceneRoots:
   - {fileID: 964969884}
   - {fileID: 121533161}
   - {fileID: 30455949}
+  - {fileID: 865733892}
   - {fileID: 2364649837697139161}
   - {fileID: 4171490636658980761}
-  - {fileID: 865733892}

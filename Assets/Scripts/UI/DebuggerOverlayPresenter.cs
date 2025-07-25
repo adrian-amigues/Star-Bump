@@ -88,6 +88,6 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
   }
 
   private void InitialDebugState() {
-    PlayerController.Instance.GetComponentInChildren<Damageable>().ToggleIsInvulnerable();
+    // PlayerController.Instance.GetComponentInChildren<Damageable>().ToggleIsInvulnerable();
   }
 }

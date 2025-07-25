@@ -5,24 +5,37 @@ using Cysharp.Threading.Tasks;
 using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager> {
-  // TODO: change that since we destroy it on try again, check which is best way to handle it
-  [SerializeField] private GameObject player;
-
   public int CurrentLevel { get; private set; }
 
   public event Action OnLevelChanged;
 
   private MenuUIPresenter menuPresenter;
+  private PlayerController player;
 
   protected override void Awake() {
     base.Awake();
-    menuPresenter = FindFirstObjectByType<MenuUIPresenter>();
   }
 
-  private void Start() {
-    CurrentLevel = 1;
+  private void OnEnable() {
+    SceneManager.sceneLoaded += OnSceneLoaded;
+  }
+
+  private void OnDisable() {
+    SceneManager.sceneLoaded -= OnSceneLoaded;
+  }
+
+  private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+    Init();
+  }
+
+  private void Init() {
+    menuPresenter = FindFirstObjectByType<MenuUIPresenter>();
+    player = FindFirstObjectByType<PlayerController>();
+
     player.GetComponentInChildren<PlayerDeathEffects>().OnPlayerExploded += HandlePlayerExploded;
     menuPresenter.OnTryAgainClicked += HandleTryAgainClicked;
+
+    CurrentLevel = 1;
   }
 
   public void NextLevel() {

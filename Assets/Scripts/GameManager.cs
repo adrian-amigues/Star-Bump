@@ -11,6 +11,7 @@ public class GameManager : Singleton<GameManager> {
 
   private MenuUIPresenter menuPresenter;
   private PlayerController player;
+  private bool isRestarting = false;
 
   protected override void Awake() {
     base.Awake();
@@ -39,8 +40,14 @@ public class GameManager : Singleton<GameManager> {
 
     CurrentLevel = 1;
 
-    menuPresenter.ShowMainMenu();
-    Time.timeScale = 0;
+    if (isRestarting) {
+      isRestarting = false;
+      HandleStartClicked();
+    } else {
+      menuPresenter.ShowMainMenu();
+      Time.timeScale = 0;
+      CursorManager.Instance.SetCursorLockState(false);
+    }
   }
 
   public void NextLevel() {
@@ -57,6 +64,7 @@ public class GameManager : Singleton<GameManager> {
     menuPresenter.Clear();
     CursorManager.Instance.SetCursorLockState(true);
     Time.timeScale = 1;
+    OnLevelChanged?.Invoke();
   }
 
   private void HandleExitClicked() {
@@ -64,7 +72,7 @@ public class GameManager : Singleton<GameManager> {
   }
 
   private void HandleTryAgainClicked() {
+    isRestarting = true;
     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    Destroy(player);
   }
 }

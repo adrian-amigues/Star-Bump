@@ -18,11 +18,19 @@ public class SplashTextUIPresenter : MonoBehaviour {
 
   private void InitializeModels() {
     GameManager.Instance.OnLevelChanged += UpdateSplashText;
-    UpdateSplashText();
   }
 
   private void UpdateSplashText() {
     var currentLevel = GameManager.Instance.CurrentLevel;
     splashText.text = $"Level {currentLevel}";
+    ShowSplashText();
+  }
+
+  private void HideSplashText() {
+    splashText.style.display = DisplayStyle.None;
+  }
+
+  private void ShowSplashText() {
+    splashText.style.display = DisplayStyle.Flex;
   }
 }

@@ -16,10 +16,6 @@ public class CursorManager : Singleton<CursorManager> {
     Cursor.SetCursor(cursorTexture, originalHotspot, CursorMode.Auto);
   }
 
-  private void Start() {
-    SetCursorLockState(false);
-  }
-
   private void Update() {
     if (Keyboard.current.escapeKey.wasPressedThisFrame) {
       SetCursorLockState(!Cursor.visible);

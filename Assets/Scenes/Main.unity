@@ -1127,6 +1127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuTemplate: {fileID: 9197481963319205126, guid: 012e6c0568d824a53bdbd66203155873, type: 3}
   gameOverTemplate: {fileID: 9197481963319205126, guid: a7ad3010087ce4b31854ced1b31df510, type: 3}
+  pauseMenuTemplate: {fileID: 9197481963319205126, guid: 040ef926017f34acc88c76544001d3ce, type: 3}
 --- !u!1 &1594528551
 GameObject:
   m_ObjectHideFlags: 0

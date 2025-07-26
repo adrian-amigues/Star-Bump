@@ -5,12 +5,14 @@ using UnityEngine.UIElements;
 public class MenuUIPresenter : MonoBehaviour {
   [SerializeField] private VisualTreeAsset mainMenuTemplate;
   [SerializeField] private VisualTreeAsset gameOverTemplate;
+  [SerializeField] private VisualTreeAsset pauseMenuTemplate;
 
   private VisualElement root;
 
   public event Action OnStartClicked;
   public event Action OnExitClicked;
   public event Action OnTryAgainClicked;
+  public event Action OnContinueClicked;
 
   private void Awake() {
     root = GetComponent<UIDocument>().rootVisualElement;
@@ -41,10 +43,25 @@ public class MenuUIPresenter : MonoBehaviour {
     container.style.height = new StyleLength(Length.Percent(100));
     root.Add(container);
 
-    var gameOverButton = container.Q<Button>();
-    gameOverButton.clicked += () => OnTryAgainClicked?.Invoke();
+    var tryAgainButton = container.Q<Button>("tryAgainButton");
+    var exitButton = container.Q<Button>("exitButton");
+
+    tryAgainButton.clicked += () => OnTryAgainClicked?.Invoke();
+    exitButton.clicked += () => OnExitClicked?.Invoke();
 
     CursorManager.Instance.SetCursorLockState(false);
   }
 
+  public void ShowPauseMenu() {
+    root.Clear();
+    var container = pauseMenuTemplate.CloneTree();
+    container.style.height = new StyleLength(Length.Percent(100));
+    root.Add(container);
+
+    var continueButton = container.Q<Button>("continueButton");
+    var exitButton = container.Q<Button>("exitButton");
+
+    continueButton.clicked += () => OnContinueClicked?.Invoke();
+    exitButton.clicked += () => OnExitClicked?.Invoke();
+  }
 }

@@ -7,10 +7,12 @@ public class PlayerShield : MonoBehaviour {
 
   private Animator animator;
   private Collider2D shieldCollider;
+  private PlayerController player;
 
   private void Awake() {
     animator = GetComponent<Animator>();
     shieldCollider = GetComponent<Collider2D>();
+    player = GetComponentInParent<PlayerController>();
   }
 
   private void OnCollisionEnter2D(Collision2D collision) {
@@ -31,7 +33,7 @@ public class PlayerShield : MonoBehaviour {
 
   private void AddMomentumToMissileAfterBounce(EnemyMissile missile) {
     var missileRb = missile.GetComponent<Rigidbody2D>();
-    Vector2 playerVelocity = PlayerController.Instance.CurrentVelocity;
+    Vector2 playerVelocity = player.CurrentVelocity;
     Vector2 missileDirection = missileRb.linearVelocity.normalized;
 
     // Check if player velocity aligns with missile direction

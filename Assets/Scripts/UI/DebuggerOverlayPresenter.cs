@@ -7,10 +7,12 @@ using UnityEngine.UIElements;
 public class DebuggerOverlayPresenter : MonoBehaviour {
   [SerializeField] private UIDocument uiDocument;
 
+  private PlayerController player;
   private ScrollView debugOverlayContainer;
   private Dictionary<Key, Action> debugActions = new Dictionary<Key, Action>();
 
   private void Start() {
+    player = FindFirstObjectByType<PlayerController>();
     var root = uiDocument.rootVisualElement;
     debugOverlayContainer = root.Q<ScrollView>();
 
@@ -44,7 +46,7 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
     LinkButtonToAction(
       triggerPlayerDeathButton,
       () => {
-        PlayerController.Instance.GetComponentInChildren<Damageable>().TakeDamage(100);
+        player.GetComponentInChildren<Damageable>().TakeDamage(100);
         Debug.Log("Player death triggered");
       },
       Key.Digit1
@@ -57,7 +59,7 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
     LinkButtonToAction(
       togglePlayerInvulnerabilityButton,
       () => {
-        PlayerController.Instance.GetComponentInChildren<Damageable>().ToggleIsInvulnerable();
+        player.GetComponentInChildren<Damageable>().ToggleIsInvulnerable();
         Debug.Log("Player invulnerability toggled");
       },
       Key.Digit2

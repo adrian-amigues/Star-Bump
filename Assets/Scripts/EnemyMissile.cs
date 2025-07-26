@@ -20,11 +20,7 @@ public class EnemyMissile : MonoBehaviour {
   }
 
   private void Start() {
-    if (PlayerController.Instance == null) {
-      return;
-    }
-
-    target = PlayerController.Instance?.transform;
+    target = FindFirstObjectByType<PlayerController>().transform;
     LaunchMissile();
   }
 

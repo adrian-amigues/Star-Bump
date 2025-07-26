@@ -1,6 +1,3 @@
-:root {
-}
-
 .try-again-button {
     width: auto;
     font-size: 32px;

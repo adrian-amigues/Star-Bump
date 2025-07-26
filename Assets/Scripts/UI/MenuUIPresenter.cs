@@ -8,16 +8,31 @@ public class MenuUIPresenter : MonoBehaviour {
 
   private VisualElement root;
 
+  public event Action OnStartClicked;
+  public event Action OnExitClicked;
   public event Action OnTryAgainClicked;
 
   private void Awake() {
     root = GetComponent<UIDocument>().rootVisualElement;
   }
 
+  public void Clear() {
+    root.Clear();
+  }
+
   public void ShowMainMenu() {
     root.Clear();
-    var mainMenu = mainMenuTemplate.CloneTree();
-    root.Add(mainMenu);
+    var container = mainMenuTemplate.CloneTree();
+    container.style.height = new StyleLength(Length.Percent(100));
+    root.Add(container);
+
+    var startButton = container.Q<Button>("startButton");
+    var exitButton = container.Q<Button>("exitButton");
+
+    startButton.clicked += () => OnStartClicked?.Invoke();
+    exitButton.clicked += () => OnExitClicked?.Invoke();
+
+    CursorManager.Instance.SetCursorLockState(false);
   }
 
   public void ShowGameOver() {

@@ -28,14 +28,19 @@ public class GameManager : Singleton<GameManager> {
     Init();
   }
 
-  private void Init() {
+  private async void Init() {
     menuPresenter = FindFirstObjectByType<MenuUIPresenter>();
     player = FindFirstObjectByType<PlayerController>();
 
     player.GetComponentInChildren<PlayerDeathEffects>().OnPlayerExploded += HandlePlayerExploded;
     menuPresenter.OnTryAgainClicked += HandleTryAgainClicked;
+    menuPresenter.OnStartClicked += HandleStartClicked;
+    menuPresenter.OnExitClicked += HandleExitClicked;
 
     CurrentLevel = 1;
+
+    menuPresenter.ShowMainMenu();
+    Time.timeScale = 0;
   }
 
   public void NextLevel() {
@@ -48,8 +53,18 @@ public class GameManager : Singleton<GameManager> {
     menuPresenter.ShowGameOver();
   }
 
+  private void HandleStartClicked() {
+    menuPresenter.Clear();
+    CursorManager.Instance.SetCursorLockState(true);
+    Time.timeScale = 1;
+  }
+
+  private void HandleExitClicked() {
+    Application.Quit();
+  }
+
   private void HandleTryAgainClicked() {
-    Destroy(player);
     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    Destroy(player);
   }
 }

@@ -3,7 +3,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : Singleton<PlayerController> {
+public class PlayerController : MonoBehaviour {
   [SerializeField] private float moveSpeed = 4f;
 
   [Header("Rotation Settings")]
@@ -20,8 +20,7 @@ public class PlayerController : Singleton<PlayerController> {
   private bool isPlayerDead = false;
   private float deathSlowDownDuration = 1f;
 
-  protected override void Awake() {
-    base.Awake();
+  private void Awake() {
     rb = GetComponentInChildren<Rigidbody2D>();
 
     controls = new InputSystem_Actions();

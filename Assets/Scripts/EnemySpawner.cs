@@ -14,8 +14,10 @@ public class EnemySpawner : MonoBehaviour {
   private float playerHitCastDistance = 20f;
   private LayerMask trajectoryStopLayers;
   private PlayableDirector timelineDirector;
+  private PlayerController player;
 
   private void Awake() {
+    player = FindFirstObjectByType<PlayerController>();
     trajectoryStopLayers = LayerMask.GetMask("Spawner", "TrajectoryStop");
     timelineDirector = GetComponent<PlayableDirector>();
   }
@@ -31,7 +33,7 @@ public class EnemySpawner : MonoBehaviour {
   }
 
   private bool HasPlayerInView() {
-    Vector2 direction = PlayerController.Instance.transform.position - spawnPoint.position;
+    Vector2 direction = player.transform.position - spawnPoint.position;
     RaycastHit2D hit = Physics2D.Raycast(spawnPoint.position, direction, playerHitCastDistance, trajectoryStopLayers);
 
     return hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("TrajectoryStop");

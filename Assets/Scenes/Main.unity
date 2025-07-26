@@ -1125,7 +1125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bed658598bd224c1baf2322982bd1a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuTemplate: {fileID: 0}
+  mainMenuTemplate: {fileID: 9197481963319205126, guid: 012e6c0568d824a53bdbd66203155873, type: 3}
   gameOverTemplate: {fileID: 9197481963319205126, guid: a7ad3010087ce4b31854ced1b31df510, type: 3}
 --- !u!1 &1594528551
 GameObject:
@@ -1419,7 +1419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10151932fcd114bcfa3770f57d9dcd99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursorTexture: {fileID: 2800000, guid: 0a46042ad0768488e9c795610aca92fc, type: 3}
+  cursorTexture: {fileID: 2800000, guid: 1f3c550e5f74f470daa9a18d1b481b01, type: 3}
 --- !u!4 &1805932440
 Transform:
   m_ObjectHideFlags: 0

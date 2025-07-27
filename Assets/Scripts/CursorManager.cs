@@ -16,14 +16,14 @@ public class CursorManager : Singleton<CursorManager> {
     Cursor.SetCursor(cursorTexture, originalHotspot, CursorMode.Auto);
   }
 
-  private void Update() {
-    if (Keyboard.current.escapeKey.wasPressedThisFrame) {
-      SetCursorLockState(!Cursor.visible);
-    }
-  }
+  // private void Update() {
+  //   if (Keyboard.current.escapeKey.wasPressedThisFrame) {
+  //     SetCursorLockState(!Cursor.visible);
+  //   }
+  // }
 
   private void OnApplicationFocus(bool hasFocus) {
-    if (hasFocus) {
+    if (hasFocus && GameManager.Instance.State == GameManager.GameState.Playing) {
       SetCursorLockState(true);
     }
   }
@@ -48,6 +48,7 @@ public class CursorManager : Singleton<CursorManager> {
   }
 
   public void SetCursorLockState(bool shouldLock) {
+    Debug.Log("SetCursorLockState: " + shouldLock);
     if (shouldLock) {
       Cursor.lockState = CursorLockMode.Locked;
       Cursor.SetCursor(transparentCursor, Vector2.zero, CursorMode.Auto);

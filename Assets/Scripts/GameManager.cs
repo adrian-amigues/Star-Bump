@@ -7,24 +7,39 @@ using UnityEngine.InputSystem;
 
 public class GameManager : Singleton<GameManager> {
   public int CurrentLevel { get; private set; }
+  public bool IsPlayerDead { get; private set; }
+  public GameState State { get; private set; }
 
   public event Action OnLevelChanged;
+  public enum GameState {
+    MainMenu,
+    Playing,
+    Paused,
+    GameOver,
+    LevelCompleted,
+    GameWon
+  }
 
   private MenuUIPresenter menuPresenter;
   private PlayerController player;
-  private bool isRestarting = false;
-  private bool isPaused = false;
+  private PlayerDeathEffects playerDeathEffects;
+
+  // private GameState currentState;
 
   protected override void Awake() {
     base.Awake();
+    State = GameState.MainMenu;
   }
 
   private void Update() {
     if (Keyboard.current.escapeKey.wasPressedThisFrame) {
-      if (isPaused) {
-        HandleContinueClicked();
-      } else {
-        OnPause();
+      switch (State) {
+        case GameState.Playing:
+          ChangeState(GameState.Paused);
+          break;
+        case GameState.Paused:
+          ChangeState(GameState.Playing);
+          break;
       }
     }
   }
@@ -46,16 +61,85 @@ public class GameManager : Singleton<GameManager> {
     InitLevels();
 
     player = FindFirstObjectByType<PlayerController>();
-    player.GetComponentInChildren<PlayerDeathEffects>().OnPlayerExploded += HandlePlayerExploded;
+    playerDeathEffects = player.GetComponentInChildren<PlayerDeathEffects>();
+    playerDeathEffects.OnPlayerExploded += HandlePlayerExploded;
+    IsPlayerDead = false;
 
-    if (isRestarting) {
-      isRestarting = false;
-      HandleStartClicked();
-    } else {
-      menuPresenter.ShowMainMenu();
-      Time.timeScale = 0;
-      CursorManager.Instance.SetCursorLockState(false);
+    switch (State) {
+      case GameState.MainMenu:
+        menuPresenter.ShowMainMenu();
+        Time.timeScale = 0;
+        CursorManager.Instance.SetCursorLockState(false);
+        break;
+      case GameState.GameOver:
+        HandleStartClicked();
+        break;
     }
+  }
+
+  private void ChangeState(GameState newState) {
+    if (newState == State) return;
+
+    var previousState = State;
+    ExitState(previousState);
+    State = newState;
+    EnterState(newState);
+    // OnStateChanged?.Invoke(previousState, newState);
+  }
+
+  private void ExitState(GameState state) {
+    // TODO: needed?
+    // switch (state) {
+    //   case GameState.Playing:
+    //     break;
+    // }
+  }
+
+  private void EnterState(GameState state) {
+    switch (state) {
+      case GameState.Playing:
+        menuPresenter.Clear();
+        CursorManager.Instance.SetCursorLockState(true);
+        Time.timeScale = 1;
+        OnLevelChanged?.Invoke();
+        break;
+      case GameState.MainMenu:
+        menuPresenter.ShowMainMenu();
+        CursorManager.Instance.SetCursorLockState(false);
+        Time.timeScale = 0;
+        break;
+      case GameState.Paused:
+        menuPresenter.ShowPauseMenu();
+        CursorManager.Instance.SetCursorLockState(false);
+        Time.timeScale = 0;
+        break;
+      case GameState.GameOver:
+        menuPresenter.ShowGameOver();
+        CursorManager.Instance.SetCursorLockState(false);
+        break;
+      case GameState.LevelCompleted:
+        Debug.Log($"Level {CurrentLevel} completed");
+        CurrentLevel++;
+        menuPresenter.ShowLevelCompleted();
+        CursorManager.Instance.SetCursorLockState(false);
+        break;
+      case GameState.GameWon:
+        menuPresenter.ShowGameWon();
+        CursorManager.Instance.SetCursorLockState(false);
+        break;
+    }
+  }
+
+  private void InitLevels() {
+    var levels = FindObjectsByType<Level>(FindObjectsSortMode.InstanceID);
+    for (int i = 0; i < levels.Length; i++) {
+      if (i < levels.Length - 1) {
+        levels[i].OnLevelCompleted += NextLevel;
+      } else {
+        levels[i].OnLevelCompleted += GameWon;
+      }
+    }
+    CurrentLevel = 1;
   }
 
   private void InitUICallbacks() {
@@ -64,33 +148,25 @@ public class GameManager : Singleton<GameManager> {
     menuPresenter.OnStartClicked += HandleStartClicked;
     menuPresenter.OnExitClicked += HandleExitClicked;
     menuPresenter.OnContinueClicked += HandleContinueClicked;
+    menuPresenter.OnMainMenuClicked += HandleMainMenuClicked;
   }
 
-  private void InitLevels() {
-    var levels = FindObjectsByType<Level>(FindObjectsSortMode.InstanceID);
-    foreach (var level in levels) {
-      level.OnLevelCompleted += NextLevel;
-    }
-
-    CurrentLevel = 1;
+  private async void NextLevel() {
+    await UniTask.Delay(1000);
+    ChangeState(GameState.LevelCompleted);
   }
-
-  public void NextLevel() {
-    Debug.Log("NextLevel");
-    CurrentLevel++;
-    OnLevelChanged?.Invoke();
+  private async void GameWon() {
+    await UniTask.Delay(1000);
+    ChangeState(GameState.GameWon);
   }
 
   private async void HandlePlayerExploded() {
     await UniTask.Delay(1000);
-    menuPresenter.ShowGameOver();
+    ChangeState(GameState.GameOver);
   }
 
   private void HandleStartClicked() {
-    menuPresenter.Clear();
-    CursorManager.Instance.SetCursorLockState(true);
-    Time.timeScale = 1;
-    OnLevelChanged?.Invoke();
+    ChangeState(GameState.Playing);
   }
 
   private void HandleExitClicked() {
@@ -102,23 +178,17 @@ public class GameManager : Singleton<GameManager> {
   }
 
   private void HandleTryAgainClicked() {
-    isRestarting = true;
+    ChangeState(GameState.Playing);
+    // TODO update to only replay current level
     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
   }
 
-  private void OnPause() {
-    isPaused = true;
-    menuPresenter.ShowPauseMenu();
-    Time.timeScale = 0;
-    CursorManager.Instance.SetCursorLockState(false);
+  private void HandleContinueClicked() {
+    ChangeState(GameState.Playing);
   }
 
-  private void HandleContinueClicked() {
-    Debug.Log("Continue clicked");
-    isPaused = false;
-    menuPresenter.Clear();
-    CursorManager.Instance.SetCursorLockState(true);
-    Time.timeScale = 1;
-    OnLevelChanged?.Invoke();
+  private void HandleMainMenuClicked() {
+    ChangeState(GameState.MainMenu);
+    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
   }
 }

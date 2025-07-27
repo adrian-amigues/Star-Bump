@@ -1128,6 +1128,8 @@ MonoBehaviour:
   mainMenuTemplate: {fileID: 9197481963319205126, guid: 012e6c0568d824a53bdbd66203155873, type: 3}
   gameOverTemplate: {fileID: 9197481963319205126, guid: a7ad3010087ce4b31854ced1b31df510, type: 3}
   pauseMenuTemplate: {fileID: 9197481963319205126, guid: 040ef926017f34acc88c76544001d3ce, type: 3}
+  levelCompletedTemplate: {fileID: 9197481963319205126, guid: 20803aea6225844319c24e944da2dc2e, type: 3}
+  gameWonTemplate: {fileID: 9197481963319205126, guid: cb0bee41ae36a459b98c65fa9b500789, type: 3}
 --- !u!1 &1594528551
 GameObject:
   m_ObjectHideFlags: 0

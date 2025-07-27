@@ -17,8 +17,8 @@ public class PlayerController : MonoBehaviour {
   private Vector2 moveInput;
   private Rigidbody2D rb;
   private float shieldRotation = 0f;
-  private bool isPlayerDead = false;
   private float deathSlowDownDuration = 1f;
+  private bool allowMovement;
 
   private void Awake() {
     rb = GetComponentInChildren<Rigidbody2D>();
@@ -31,10 +31,11 @@ public class PlayerController : MonoBehaviour {
   private void Start() {
     GetComponentInChildren<Damageable>().OnDeath += HandlePlayerDeathStart;
     GetComponent<PlayerDeathEffects>().OnPlayerExploded += HandlePlayerExploded;
+    allowMovement = true;
   }
 
   private void FixedUpdate() {
-    if (isPlayerDead) return;
+    if (!allowMovement) return;
 
     MovePlayer();
     RotateShieldsWithMouseDelta();
@@ -93,7 +94,7 @@ public class PlayerController : MonoBehaviour {
   }
 
   private void HandlePlayerExploded() {
-    isPlayerDead = true;
+    allowMovement = false;
 
     var shipCollider = gameObject.GetComponentInChildren<PolygonCollider2D>();
     shipCollider.gameObject.SetActive(false);

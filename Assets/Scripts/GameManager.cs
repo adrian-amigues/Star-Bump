@@ -42,16 +42,11 @@ public class GameManager : Singleton<GameManager> {
   }
 
   private void Init() {
-    menuPresenter = FindFirstObjectByType<MenuUIPresenter>();
+    InitUICallbacks();
+    InitLevels();
+
     player = FindFirstObjectByType<PlayerController>();
-
     player.GetComponentInChildren<PlayerDeathEffects>().OnPlayerExploded += HandlePlayerExploded;
-    menuPresenter.OnTryAgainClicked += HandleTryAgainClicked;
-    menuPresenter.OnStartClicked += HandleStartClicked;
-    menuPresenter.OnExitClicked += HandleExitClicked;
-    menuPresenter.OnContinueClicked += HandleContinueClicked;
-
-    CurrentLevel = 1;
 
     if (isRestarting) {
       isRestarting = false;
@@ -63,7 +58,25 @@ public class GameManager : Singleton<GameManager> {
     }
   }
 
+  private void InitUICallbacks() {
+    menuPresenter = FindFirstObjectByType<MenuUIPresenter>();
+    menuPresenter.OnTryAgainClicked += HandleTryAgainClicked;
+    menuPresenter.OnStartClicked += HandleStartClicked;
+    menuPresenter.OnExitClicked += HandleExitClicked;
+    menuPresenter.OnContinueClicked += HandleContinueClicked;
+  }
+
+  private void InitLevels() {
+    var levels = FindObjectsByType<Level>(FindObjectsSortMode.InstanceID);
+    foreach (var level in levels) {
+      level.OnLevelCompleted += NextLevel;
+    }
+
+    CurrentLevel = 1;
+  }
+
   public void NextLevel() {
+    Debug.Log("NextLevel");
     CurrentLevel++;
     OnLevelChanged?.Invoke();
   }

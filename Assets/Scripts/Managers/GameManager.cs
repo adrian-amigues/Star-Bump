@@ -12,6 +12,7 @@ public class GameManager : Singleton<GameManager> {
 
   public event Action OnLevelChanged;
   public enum GameState {
+    None,
     MainMenu,
     Playing,
     Paused,
@@ -23,12 +24,15 @@ public class GameManager : Singleton<GameManager> {
   private MenuUIPresenter menuPresenter;
   private PlayerController player;
   private PlayerDeathEffects playerDeathEffects;
+  private TimeManager timeManager;
 
   // private GameState currentState;
 
   protected override void Awake() {
     base.Awake();
-    State = GameState.MainMenu;
+    Debug.Log("Awake " + State);
+    // State = GameState.MainMenu;
+    timeManager = GetComponent<TimeManager>();
   }
 
   private void Update() {
@@ -66,13 +70,13 @@ public class GameManager : Singleton<GameManager> {
     IsPlayerDead = false;
 
     switch (State) {
-      case GameState.MainMenu:
-        menuPresenter.ShowMainMenu();
-        Time.timeScale = 0;
-        CursorManager.Instance.SetCursorLockState(false);
-        break;
       case GameState.GameOver:
-        HandleStartClicked();
+        ChangeState(GameState.Playing);
+        break;
+      case GameState.MainMenu:
+      case GameState.None:
+      default:
+        ChangeState(GameState.MainMenu);
         break;
     }
   }
@@ -96,22 +100,23 @@ public class GameManager : Singleton<GameManager> {
   }
 
   private void EnterState(GameState state) {
+    Debug.Log("EnterState " + state);
     switch (state) {
       case GameState.Playing:
         menuPresenter.Clear();
         CursorManager.Instance.SetCursorLockState(true);
-        Time.timeScale = 1;
+        timeManager.SetTimeScale(1);
         OnLevelChanged?.Invoke();
         break;
       case GameState.MainMenu:
         menuPresenter.ShowMainMenu();
         CursorManager.Instance.SetCursorLockState(false);
-        Time.timeScale = 0;
+        timeManager.SetTimeScale(0);
         break;
       case GameState.Paused:
         menuPresenter.ShowPauseMenu();
         CursorManager.Instance.SetCursorLockState(false);
-        Time.timeScale = 0;
+        timeManager.SetTimeScale(0);
         break;
       case GameState.GameOver:
         menuPresenter.ShowGameOver();

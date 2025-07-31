@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class DebuggerOverlayPresenter : MonoBehaviour {
   [SerializeField] private UIDocument uiDocument;
+  [SerializeField] private bool defaultIsPlayerInvulnerable = false;
 
   private PlayerController player;
   private ScrollView debugOverlayContainer;
@@ -90,6 +91,6 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
   }
 
   private void InitialDebugState() {
-    // PlayerController.Instance.GetComponentInChildren<Damageable>().ToggleIsInvulnerable();
+    player.GetComponentInChildren<Damageable>().SetIsInvulnerable(defaultIsPlayerInvulnerable);
   }
 }

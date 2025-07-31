@@ -6,7 +6,7 @@ public class CursorManager : Singleton<CursorManager> {
 
   private Vector2 originalHotspot = new Vector2(0, 0);
   // private Vector2 originalHotspot = new Vector2(20, 23);
-  private float originalTextureSize = 160f;
+  // private float originalTextureSize = 160f;
   private Texture2D transparentCursor;
 
   protected override void Awake() {

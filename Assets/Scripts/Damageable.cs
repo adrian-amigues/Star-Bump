@@ -59,6 +59,10 @@ public class Damageable : MonoBehaviour {
     OnHealthChanged?.Invoke();
   }
 
+  public void SetIsInvulnerable(bool isInvulnerable) {
+    this.isInvulnerable = isInvulnerable;
+  }
+
   public void ToggleIsInvulnerable() {
     isInvulnerable = !isInvulnerable;
   }

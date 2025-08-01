@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour {
 
   private void RotateShieldsWithMouseDelta() {
     Vector2 mouseDelta = Mouse.current.delta.ReadValue();
+    Debug.Log("mouse delta: " + mouseDelta);
 
     float sensitivity = rotationSensitivity;
     if (useTrackpadMode) {
@@ -103,5 +104,10 @@ public class PlayerController : MonoBehaviour {
     foreach (var shield in shields) {
       shield.gameObject.SetActive(false);
     }
+  }
+
+  public void ResetRotation() {
+    shieldRotation = 0f;
+    // CursorManager.Instance.ClearCursorDelta();
   }
 }

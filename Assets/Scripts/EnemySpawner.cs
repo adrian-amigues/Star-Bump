@@ -17,14 +17,19 @@ public class EnemySpawner : MonoBehaviour {
   private PlayerController player;
 
   private void Awake() {
-    player = FindFirstObjectByType<PlayerController>();
     trajectoryStopLayers = LayerMask.GetMask("Spawner", "TrajectoryStop");
     timelineDirector = GetComponent<PlayableDirector>();
   }
 
-  private void Start() {
+  private void OnEnable() {
+    player = FindFirstObjectByType<PlayerController>();
     InvokeRepeating("SpawnEnemy", initialDelay, spawnRate);
     GetComponent<Damageable>().OnDeath += HandleDeath;
+  }
+
+  private void OnDisable() {
+    CancelInvoke("SpawnEnemy");
+    GetComponent<Damageable>().OnDeath -= HandleDeath;
   }
 
   private void SpawnEnemy() {

@@ -15,6 +15,7 @@ public class MenuUIPresenter : MonoBehaviour {
   public event Action OnExitClicked;
   public event Action OnTryAgainClicked;
   public event Action OnContinueClicked;
+  public event Action OnNextLevelClicked;
   public event Action OnMainMenuClicked;
 
   private void Awake() {
@@ -70,7 +71,7 @@ public class MenuUIPresenter : MonoBehaviour {
     var continueButton = container.Q<Button>("continueButton");
     var exitButton = container.Q<Button>("exitButton");
 
-    continueButton.clicked += () => OnContinueClicked?.Invoke();
+    continueButton.clicked += () => OnNextLevelClicked?.Invoke();
     exitButton.clicked += () => OnExitClicked?.Invoke();
   }
 

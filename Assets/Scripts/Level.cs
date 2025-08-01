@@ -29,6 +29,7 @@ public class Level : MonoBehaviour {
 
   private void CheckAreAllEnemiesDead() {
     if (areEnemiesDeadMap.All(enemy => !!enemy.Value)) {
+      Debug.Log("All enemies dead");
       OnLevelCompleted?.Invoke();
     }
   }

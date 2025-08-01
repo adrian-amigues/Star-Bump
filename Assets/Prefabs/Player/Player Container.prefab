@@ -247,7 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   rotationSensitivity: 0.12
-  useTrackpadMode: 1
+  useTrackpadMode: 0
   trackpadSensitivityMultiplier: 5
 --- !u!114 &7881576133492068995
 MonoBehaviour:

@@ -6,11 +6,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 public class GameManager : Singleton<GameManager> {
-  public int CurrentLevel { get; private set; }
+  // public int CurrentLevel { get; private set; }
   public bool IsPlayerDead { get; private set; }
   public GameState State { get; private set; }
 
-  public event Action OnLevelChanged;
   public enum GameState {
     None,
     MainMenu,
@@ -30,10 +29,9 @@ public class GameManager : Singleton<GameManager> {
 
   protected override void Awake() {
     base.Awake();
-    Debug.Log("Awake " + State);
-    // State = GameState.MainMenu;
     timeManager = GetComponent<TimeManager>();
   }
+
 
   private void Update() {
     if (Keyboard.current.escapeKey.wasPressedThisFrame) {
@@ -62,7 +60,8 @@ public class GameManager : Singleton<GameManager> {
 
   private void Init() {
     InitUICallbacks();
-    InitLevels();
+    LevelManager.Instance.OnGameWon += GameWon;
+    LevelManager.Instance.OnLevelCompleted += HandleLevelCompleted;
 
     player = FindFirstObjectByType<PlayerController>();
     playerDeathEffects = player.GetComponentInChildren<PlayerDeathEffects>();
@@ -106,12 +105,12 @@ public class GameManager : Singleton<GameManager> {
         menuPresenter.Clear();
         CursorManager.Instance.SetCursorLockState(true);
         timeManager.SetTimeScale(1);
-        OnLevelChanged?.Invoke();
+        // LevelManager.Instance.LoadLevel(LevelManager.Instance.CurrentLevel);
         break;
       case GameState.MainMenu:
         menuPresenter.ShowMainMenu();
         CursorManager.Instance.SetCursorLockState(false);
-        timeManager.SetTimeScale(0);
+        timeManager.SetTimeScale(1);
         break;
       case GameState.Paused:
         menuPresenter.ShowPauseMenu();
@@ -123,8 +122,7 @@ public class GameManager : Singleton<GameManager> {
         CursorManager.Instance.SetCursorLockState(false);
         break;
       case GameState.LevelCompleted:
-        Debug.Log($"Level {CurrentLevel} completed");
-        CurrentLevel++;
+        Debug.Log($"Level {LevelManager.Instance.CurrentLevel} completed");
         menuPresenter.ShowLevelCompleted();
         CursorManager.Instance.SetCursorLockState(false);
         break;
@@ -135,28 +133,17 @@ public class GameManager : Singleton<GameManager> {
     }
   }
 
-  private void InitLevels() {
-    var levels = FindObjectsByType<Level>(FindObjectsSortMode.InstanceID);
-    for (int i = 0; i < levels.Length; i++) {
-      if (i < levels.Length - 1) {
-        levels[i].OnLevelCompleted += NextLevel;
-      } else {
-        levels[i].OnLevelCompleted += GameWon;
-      }
-    }
-    CurrentLevel = 1;
-  }
-
   private void InitUICallbacks() {
     menuPresenter = FindFirstObjectByType<MenuUIPresenter>();
     menuPresenter.OnTryAgainClicked += HandleTryAgainClicked;
     menuPresenter.OnStartClicked += HandleStartClicked;
     menuPresenter.OnExitClicked += HandleExitClicked;
     menuPresenter.OnContinueClicked += HandleContinueClicked;
+    menuPresenter.OnNextLevelClicked += HandleNextLevelClicked;
     menuPresenter.OnMainMenuClicked += HandleMainMenuClicked;
   }
 
-  private async void NextLevel() {
+  private async void HandleLevelCompleted() {
     await UniTask.Delay(1000);
     ChangeState(GameState.LevelCompleted);
   }
@@ -171,6 +158,7 @@ public class GameManager : Singleton<GameManager> {
   }
 
   private void HandleStartClicked() {
+    LevelManager.Instance.LoadLevel(1);
     ChangeState(GameState.Playing);
   }
 
@@ -192,8 +180,14 @@ public class GameManager : Singleton<GameManager> {
     ChangeState(GameState.Playing);
   }
 
+  private void HandleNextLevelClicked() {
+    LevelManager.Instance.NextLevel();
+    ChangeState(GameState.Playing);
+  }
+
   private void HandleMainMenuClicked() {
+    // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     ChangeState(GameState.MainMenu);
-    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    // LevelManager.Instance.LoadLevel(1);
   }
 }

@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 
 public class EnemySpawner : MonoBehaviour {
   [SerializeField] private GameObject enemyPrefab;
+  [SerializeField] private GameObject spawnArrow;
   [SerializeField] private Transform spawnPoint;
   [SerializeField] private float spawnRate = 2f;
   [SerializeField] private float initialDelay = 1f;
@@ -16,6 +17,14 @@ public class EnemySpawner : MonoBehaviour {
   private LayerMask trajectoryStopLayers;
   private PlayableDirector timelineDirector;
   private float minDistanceToPlayer = 1f;
+
+  private void OnValidate() {
+    if (Application.isPlaying || !enemyPrefab || !spawnArrow) return;
+
+    var missileData = enemyPrefab.GetComponent<EnemyMissile>()?.MissileData;
+    if (!missileData) return;
+    spawnArrow.GetComponent<SpriteRenderer>().color = GameManager.GetMissileColor(missileData.color);
+  }
 
   private void Awake() {
     trajectoryStopLayers = LayerMask.GetMask("Spawner", "TrajectoryStop");

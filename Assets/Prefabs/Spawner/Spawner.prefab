@@ -217,7 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e4b43d103e568b4daf1500e58d8e27a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 6700699770136641082, guid: f6aeb604bc49f0f4e9586fa13c579f88, type: 3}
+  enemyPrefab: {fileID: 0}
+  spawnArrow: {fileID: 6946297122523953896}
   spawnPoint: {fileID: 5670812201341420042}
   spawnRate: 1
   initialDelay: 1
@@ -419,7 +420,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 0.21568629, g: 0.9921569, b: 0.9921569, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

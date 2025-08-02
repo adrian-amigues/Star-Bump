@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: delete ?
 [CreateAssetMenu(fileName = "ColorData", menuName = "Scriptable Objects/ColorData")]
 public class ColorData : ScriptableObject {
   [Header("Missile Colors")]

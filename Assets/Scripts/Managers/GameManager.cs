@@ -9,6 +9,7 @@ using Unity.Cinemachine;
 public class GameManager : Singleton<GameManager> {
   [SerializeField] private GameObject playerPrefab;
   [SerializeField] public Transform playerSpawnPoint;
+  [SerializeField] public ColorData mainColors;
 
   // public int CurrentLevel { get; private set; }
   public bool IsPlayerDead { get; private set; }
@@ -226,5 +227,19 @@ public class GameManager : Singleton<GameManager> {
     }
     playerTransform = player.transform;
     return true;
+  }
+
+  public static Color GetMissileColor(MissileColor color) {
+#if UNITY_EDITOR
+    if (!Application.isPlaying) {
+      var colorData = AssetDatabase.LoadAssetAtPath<ColorData>("Assets/ScriptableObjects/ColorData/MainColors.asset");
+      if (!colorData) {
+        Debug.LogError("ColorData not found");
+        return Color.white;
+      }
+      return colorData.GetColor(color);
+    }
+#endif
+    return Instance.mainColors?.GetColor(color) ?? Color.white;
   }
 }

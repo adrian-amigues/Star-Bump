@@ -11,8 +11,7 @@ public class GameManager : Singleton<GameManager> {
   [SerializeField] public Transform playerSpawnPoint;
   [SerializeField] public ColorData mainColors;
 
-  // public int CurrentLevel { get; private set; }
-  public bool IsPlayerDead { get; private set; }
+  public Action<GameObject> OnPlayerSpawned;
   public GameState State { get; private set; }
 
   public enum GameState {
@@ -26,8 +25,8 @@ public class GameManager : Singleton<GameManager> {
   }
 
   private MenuUIPresenter menuPresenter;
-  private PlayerController player;
-  private PlayerDeathEffects playerDeathEffects;
+  // private PlayerController player;
+  // private PlayerDeathEffects playerDeathEffects;
   private TimeManager timeManager;
 
   // private GameState currentState;
@@ -68,10 +67,12 @@ public class GameManager : Singleton<GameManager> {
     LevelManager.Instance.OnGameWon += GameWon;
     LevelManager.Instance.OnLevelCompleted += HandleLevelCompleted;
 
-    player = FindFirstObjectByType<PlayerController>();
-    playerDeathEffects = player.GetComponentInChildren<PlayerDeathEffects>();
-    playerDeathEffects.OnPlayerExploded += HandlePlayerExploded;
-    IsPlayerDead = false;
+    var player = FindFirstObjectByType<PlayerController>();
+    InitPlayerCallbacks(player.gameObject);
+
+    // player = FindFirstObjectByType<PlayerController>();
+    // playerDeathEffects = player.GetComponentInChildren<PlayerDeathEffects>();
+    // playerDeathEffects.OnPlayerExploded += HandlePlayerExploded;
 
     switch (State) {
       case GameState.GameOver:
@@ -85,6 +86,10 @@ public class GameManager : Singleton<GameManager> {
     }
   }
 
+  private void InitPlayerCallbacks(GameObject player) {
+    player.GetComponent<PlayerDeathEffects>().OnPlayerExploded += HandlePlayerExploded;
+  }
+
   private void ChangeState(GameState newState) {
     if (newState == State) return;
 
@@ -96,13 +101,11 @@ public class GameManager : Singleton<GameManager> {
   }
 
   private void ExitState(GameState state) {
-    switch (state) {
-      case GameState.GameOver:
-        Debug.Log("ExitState GameOver");
-        // player.RestorePlayerMovement();
-        // playerDeathEffects.ResetPlayerVisuals();
-        break;
-    }
+    // switch (state) {
+    //   case GameState.GameOver:
+    //     Debug.Log("ExitState GameOver");
+    //     break;
+    // }
   }
 
   private void EnterState(GameState state) {
@@ -193,30 +196,18 @@ public class GameManager : Singleton<GameManager> {
   }
 
   private void HandleMainMenuClicked() {
-    // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     ChangeState(GameState.MainMenu);
-    // LevelManager.Instance.LoadLevel(1);
   }
 
-  // private void ResetPlayer() {
-  //   Destroy(player.gameObject);
-  //   SpawnPlayer();
-  // }
-
-  // private void InitPlayer() {
-  //   player = FindFirstObjectByType<PlayerController>();
-  //   playerDeathEffects = player.GetComponentInChildren<PlayerDeathEffects>();
-  //   playerDeathEffects.OnPlayerExploded += HandlePlayerExploded;
-  //   IsPlayerDead = false;
-  // }
-
   private void SpawnPlayer() {
-    var player = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
+    var newPlayer = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
     // cinemachine follow target
     var cinemachineFollow = FindFirstObjectByType<CinemachineCamera>();
     if (cinemachineFollow != null) {
-      cinemachineFollow.Follow = player.transform;
+      cinemachineFollow.Follow = newPlayer.transform;
     }
+    OnPlayerSpawned?.Invoke(newPlayer);
+    InitPlayerCallbacks(newPlayer);
   }
 
   public bool TryGetPlayer(out Transform playerTransform) {

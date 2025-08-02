@@ -30,11 +30,11 @@ public class PlayerController : MonoBehaviour {
   }
 
   private void Start() {
-    // TODO: Fix to relink the cb on new player spawned
-    GetComponentInChildren<Damageable>().OnDeath += HandlePlayerDeathStart;
-    GetComponent<PlayerDeathEffects>().OnPlayerExploded += HandlePlayerExploded;
     allowMovement = true;
     initialMoveSpeed = moveSpeed;
+
+    InitPlayerCallbacks(gameObject);
+    GameManager.Instance.OnPlayerSpawned += InitPlayerCallbacks;
   }
 
   private void FixedUpdate() {
@@ -50,6 +50,18 @@ public class PlayerController : MonoBehaviour {
 
   private void OnDisable() {
     controls.Player.Disable();
+    GameManager.Instance.OnPlayerSpawned -= InitPlayerCallbacks;
+  }
+
+  private void OnDestroy() {
+    // GameManager.Instance.OnPlayerSpawned -= InitPlayerCallbacks;
+    // GetComponentInChildren<Damageable>().OnDeath -= HandlePlayerDeathStart;
+    // GetComponent<PlayerDeathEffects>().OnPlayerExploded -= HandlePlayerExploded;
+  }
+
+  private void InitPlayerCallbacks(GameObject player) {
+    player.GetComponentInChildren<Damageable>().OnDeath += HandlePlayerDeathStart;
+    player.GetComponent<PlayerDeathEffects>().OnPlayerExploded += HandlePlayerExploded;
   }
 
   private void MovePlayer() {

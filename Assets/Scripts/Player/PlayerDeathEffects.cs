@@ -79,6 +79,7 @@ public class PlayerDeathEffects : MonoBehaviour {
   private void TriggerExplosionEffects() {
     foreach (var vfx in deathVfxList) {
       var particleSystem = vfx.GetComponent<ParticleSystem>();
+      vfx.transform.SetParent(null);
       particleSystem?.Play();
     }
   }

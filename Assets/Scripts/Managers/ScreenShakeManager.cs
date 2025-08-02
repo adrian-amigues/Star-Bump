@@ -1,3 +1,4 @@
+using PrimeTween;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class ScreenShakeManager : Singleton<ScreenShakeManager> {
   }
 
   public void ShakeScreen() {
-    impulseSource.GenerateImpulse();
+    // impulseSource.GenerateImpulse();
+    Tween.ShakeCamera(Camera.main, strengthFactor: 0.5f);
   }
 }

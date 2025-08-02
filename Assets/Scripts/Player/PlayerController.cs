@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
   private float shieldRotation = 0f;
   private float deathSlowDownDuration = 1f;
   private bool allowMovement;
+  private float initialMoveSpeed;
 
   private void Awake() {
     rb = GetComponentInChildren<Rigidbody2D>();
@@ -29,9 +30,11 @@ public class PlayerController : MonoBehaviour {
   }
 
   private void Start() {
+    // TODO: Fix to relink the cb on new player spawned
     GetComponentInChildren<Damageable>().OnDeath += HandlePlayerDeathStart;
     GetComponent<PlayerDeathEffects>().OnPlayerExploded += HandlePlayerExploded;
     allowMovement = true;
+    initialMoveSpeed = moveSpeed;
   }
 
   private void FixedUpdate() {
@@ -66,7 +69,6 @@ public class PlayerController : MonoBehaviour {
 
   private void RotateShieldsWithMouseDelta() {
     Vector2 mouseDelta = Mouse.current.delta.ReadValue();
-    Debug.Log("mouse delta: " + mouseDelta);
 
     float sensitivity = rotationSensitivity;
     if (useTrackpadMode) {
@@ -100,9 +102,23 @@ public class PlayerController : MonoBehaviour {
     var shipCollider = gameObject.GetComponentInChildren<PolygonCollider2D>();
     shipCollider.gameObject.SetActive(false);
 
+    SetShieldsActive(false);
+  }
+
+  // public void RestorePlayerMovement() {
+  //   allowMovement = true;
+  //   moveSpeed = initialMoveSpeed;
+  //   // var shipCollider = gameObject.GetComponentInChildren<PolygonCollider2D>();
+  //   // shipCollider.gameObject.SetActive(true);
+
+  //   ResetRotation();
+  //   SetShieldsActive(true);
+  // }
+
+  private void SetShieldsActive(bool active) {
     var shields = gameObject.GetComponentsInChildren<PlayerShield>();
     foreach (var shield in shields) {
-      shield.gameObject.SetActive(false);
+      shield.gameObject.SetActive(active);
     }
   }
 

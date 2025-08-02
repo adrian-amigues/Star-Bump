@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Threading;
 using System.Linq;
 using UnityEngine.Playables;
+using Unity.VisualScripting;
 
 public class EnemySpawner : MonoBehaviour {
   [SerializeField] private GameObject enemyPrefab;
@@ -14,7 +15,7 @@ public class EnemySpawner : MonoBehaviour {
   private float playerHitCastDistance = 20f;
   private LayerMask trajectoryStopLayers;
   private PlayableDirector timelineDirector;
-  private PlayerController player;
+  private float minDistanceToPlayer = 1f;
 
   private void Awake() {
     trajectoryStopLayers = LayerMask.GetMask("Spawner", "TrajectoryStop");
@@ -22,7 +23,6 @@ public class EnemySpawner : MonoBehaviour {
   }
 
   private void OnEnable() {
-    player = FindFirstObjectByType<PlayerController>();
     InvokeRepeating("SpawnEnemy", initialDelay, spawnRate);
     GetComponent<Damageable>().OnDeath += HandleDeath;
   }
@@ -34,12 +34,16 @@ public class EnemySpawner : MonoBehaviour {
 
   private void SpawnEnemy() {
     if (!HasPlayerInView()) return;
-    GameObject enemyInstance = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+    Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
   }
 
   private bool HasPlayerInView() {
-    Vector2 direction = player.transform.position - spawnPoint.position;
-    RaycastHit2D hit = Physics2D.Raycast(spawnPoint.position, direction, playerHitCastDistance, trajectoryStopLayers);
+    if (!GameManager.Instance.TryGetPlayer(out var player)) return false;
+
+    Vector2 direction = player.position - spawnPoint.position;
+
+    var castOrigin = spawnPoint.position + (Vector3)direction.normalized * minDistanceToPlayer;
+    RaycastHit2D hit = Physics2D.CircleCast(castOrigin, 0.5f, direction, playerHitCastDistance, trajectoryStopLayers);
 
     return hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("TrajectoryStop");
   }

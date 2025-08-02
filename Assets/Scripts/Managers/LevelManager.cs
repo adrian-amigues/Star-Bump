@@ -7,7 +7,6 @@ public class LevelManager : Singleton<LevelManager> {
   [SerializeField] private GameObject[] levelPrefabs;
   [SerializeField] private GameObject exampleLevelsContainer;
   [SerializeField] private Transform levelContainer;
-  [SerializeField] private Transform playerSpawnPoint;
 
   public int CurrentLevel { get; private set; }
   public event Action OnGameWon;
@@ -30,7 +29,7 @@ public class LevelManager : Singleton<LevelManager> {
 
   public void ResetPlayerPosition() {
     var player = FindFirstObjectByType<PlayerController>();
-    player.transform.position = playerSpawnPoint.position;
+    player.transform.position = GameManager.Instance.playerSpawnPoint.position;
     player.ResetRotation();
 
     var playerRigidbody = player.GetComponent<Rigidbody2D>();

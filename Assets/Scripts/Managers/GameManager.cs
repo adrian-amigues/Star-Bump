@@ -4,8 +4,12 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine;
 
 public class GameManager : Singleton<GameManager> {
+  [SerializeField] private GameObject playerPrefab;
+  [SerializeField] public Transform playerSpawnPoint;
+
   // public int CurrentLevel { get; private set; }
   public bool IsPlayerDead { get; private set; }
   public GameState State { get; private set; }
@@ -91,11 +95,13 @@ public class GameManager : Singleton<GameManager> {
   }
 
   private void ExitState(GameState state) {
-    // TODO: needed?
-    // switch (state) {
-    //   case GameState.Playing:
-    //     break;
-    // }
+    switch (state) {
+      case GameState.GameOver:
+        Debug.Log("ExitState GameOver");
+        // player.RestorePlayerMovement();
+        // playerDeathEffects.ResetPlayerVisuals();
+        break;
+    }
   }
 
   private void EnterState(GameState state) {
@@ -171,9 +177,9 @@ public class GameManager : Singleton<GameManager> {
   }
 
   private void HandleTryAgainClicked() {
+    SpawnPlayer();
+    LevelManager.Instance.ResetCurrentLevel();
     ChangeState(GameState.Playing);
-    // TODO update to only replay current level
-    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
   }
 
   private void HandleContinueClicked() {
@@ -189,5 +195,36 @@ public class GameManager : Singleton<GameManager> {
     // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     ChangeState(GameState.MainMenu);
     // LevelManager.Instance.LoadLevel(1);
+  }
+
+  // private void ResetPlayer() {
+  //   Destroy(player.gameObject);
+  //   SpawnPlayer();
+  // }
+
+  // private void InitPlayer() {
+  //   player = FindFirstObjectByType<PlayerController>();
+  //   playerDeathEffects = player.GetComponentInChildren<PlayerDeathEffects>();
+  //   playerDeathEffects.OnPlayerExploded += HandlePlayerExploded;
+  //   IsPlayerDead = false;
+  // }
+
+  private void SpawnPlayer() {
+    var player = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
+    // cinemachine follow target
+    var cinemachineFollow = FindFirstObjectByType<CinemachineCamera>();
+    if (cinemachineFollow != null) {
+      cinemachineFollow.Follow = player.transform;
+    }
+  }
+
+  public bool TryGetPlayer(out Transform playerTransform) {
+    var player = FindFirstObjectByType<PlayerController>();
+    if (player == null) {
+      playerTransform = null;
+      return false;
+    }
+    playerTransform = player.transform;
+    return true;
   }
 }

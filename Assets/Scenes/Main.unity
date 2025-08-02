@@ -446,6 +446,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce73f118ba094183a4433841dbdbac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 2669387775780373206, guid: fbd07355e04a84d76a5982e6187bb968, type: 3}
+  playerSpawnPoint: {fileID: 857056177}
 --- !u!4 &818929285
 Transform:
   m_ObjectHideFlags: 0
@@ -491,7 +493,6 @@ MonoBehaviour:
   - {fileID: 8326784420374848015, guid: ab455197581511e47bdc9ff2a4522f54, type: 3}
   exampleLevelsContainer: {fileID: 865733891}
   levelContainer: {fileID: 394579963}
-  playerSpawnPoint: {fileID: 857056177}
 --- !u!4 &857056177 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5049964663411307527, guid: 319ce103f6952417180c1e9653776ba0, type: 3}
@@ -1218,7 +1219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiDocument: {fileID: 1988719736}
-  defaultIsPlayerInvulnerable: 1
+  defaultIsPlayerInvulnerable: 0
 --- !u!1 &1805932438
 GameObject:
   m_ObjectHideFlags: 0

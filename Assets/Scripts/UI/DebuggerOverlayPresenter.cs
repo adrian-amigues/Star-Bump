@@ -8,12 +8,10 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
   [SerializeField] private UIDocument uiDocument;
   [SerializeField] private bool defaultIsPlayerInvulnerable = false;
 
-  private PlayerController player;
   private ScrollView debugOverlayContainer;
   private Dictionary<Key, Action> debugActions = new Dictionary<Key, Action>();
 
   private void Start() {
-    player = FindFirstObjectByType<PlayerController>();
     var root = uiDocument.rootVisualElement;
     debugOverlayContainer = root.Q<ScrollView>();
 
@@ -47,8 +45,10 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
     LinkButtonToAction(
       triggerPlayerDeathButton,
       () => {
-        player.GetComponentInChildren<Damageable>().TakeDamage(100);
-        Debug.Log("Player death triggered");
+        if (GameManager.Instance.TryGetPlayer(out var player)) {
+          player.GetComponentInChildren<Damageable>().TakeDamage(100);
+          Debug.Log("Player death triggered");
+        }
       },
       Key.Digit1
     );
@@ -60,8 +60,10 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
     LinkButtonToAction(
       togglePlayerInvulnerabilityButton,
       () => {
-        player.GetComponentInChildren<Damageable>().ToggleIsInvulnerable();
-        Debug.Log("Player invulnerability toggled");
+        if (GameManager.Instance.TryGetPlayer(out var player)) {
+          player.GetComponentInChildren<Damageable>().ToggleIsInvulnerable();
+          Debug.Log("Player invulnerability toggled");
+        }
       },
       Key.Digit2
     );
@@ -91,6 +93,8 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
   }
 
   private void InitialDebugState() {
-    player.GetComponentInChildren<Damageable>().SetIsInvulnerable(defaultIsPlayerInvulnerable);
+    if (GameManager.Instance.TryGetPlayer(out var player)) {
+      player.GetComponentInChildren<Damageable>().SetIsInvulnerable(defaultIsPlayerInvulnerable);
+    }
   }
 }

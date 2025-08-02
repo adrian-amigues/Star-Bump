@@ -62,4 +62,8 @@ public class PlayerShield : MonoBehaviour {
   public void DisableAnimator() {
     animator.enabled = false;
   }
+
+  public void EnableAnimator() {
+    animator.enabled = true;
+  }
 }

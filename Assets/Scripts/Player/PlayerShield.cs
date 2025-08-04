@@ -5,6 +5,7 @@ public class PlayerShield : MonoBehaviour {
   [SerializeField] public MissileColor shieldColor = MissileColor.Pink;
   [SerializeField] public float shieldCooldown = 3f;
 
+  private float momentumTransfer = 0.1f;
   private Animator animator;
   private Collider2D shieldCollider;
   private PlayerController player;
@@ -40,8 +41,8 @@ public class PlayerShield : MonoBehaviour {
     float alignment = Vector2.Dot(playerVelocity, missileDirection);
 
     if (alignment > 0) {
-      float momentumTransfer = 0.7f * alignment;
-      missileRb.linearVelocity += missileDirection * momentumTransfer;
+      float transfer = momentumTransfer * alignment;
+      missileRb.linearVelocity += missileDirection * transfer;
     }
   }
 

@@ -52,6 +52,7 @@ public class EnemySpawner : MonoBehaviour {
     Vector2 direction = player.position - spawnPoint.position;
 
     var castOrigin = spawnPoint.position + (Vector3)direction.normalized * minDistanceToPlayer;
+    Debug.Log($"Cast origin: {castOrigin}");
     RaycastHit2D hit = Physics2D.CircleCast(castOrigin, 0.5f, direction, playerHitCastDistance, trajectoryStopLayers);
 
     return hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("TrajectoryStop");
@@ -61,7 +62,6 @@ public class EnemySpawner : MonoBehaviour {
     CancelInvoke("SpawnEnemy");
     DisableAllColliders();
     timelineDirector.Play();
-    // FadeOutAndDestroyRoutine().Forget();
   }
 
   private void DisableAllColliders() {
@@ -70,25 +70,6 @@ public class EnemySpawner : MonoBehaviour {
       collider.enabled = false;
     }
   }
-
-  // private async UniTaskVoid FadeOutAndDestroyRoutine() {
-  //   var spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-  //   var originalColors = spriteRenderers.Select(sr => sr.color).ToArray();
-
-  //   float elapsed = 0f;
-  // while (elapsed < fadeOutDuration) {
-  //   elapsed += Time.deltaTime;
-  //   float progress = elapsed / fadeOutDuration;
-
-  //   for (int i = 0; i < spriteRenderers.Length; i++) {
-  //     var color = originalColors[i];
-  //     color.a = Mathf.Lerp(1f, 0f, progress);
-  //     spriteRenderers[i].color = color;
-  //   }
-  //   await UniTask.NextFrame();
-  // }
-  //   Destroy(gameObject);
-  // }
 
   public void DestroySpawner() {
     Destroy(gameObject);

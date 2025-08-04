@@ -66,10 +66,13 @@ public class MenuUIPresenter : MonoBehaviour {
     exitButton.clicked += () => OnExitClicked?.Invoke();
   }
 
-  public void ShowLevelCompleted() {
+  public void ShowLevelCompleted(int levelIndex) {
     var container = ShowMenu(levelCompletedTemplate);
     var continueButton = container.Q<Button>("continueButton");
     var exitButton = container.Q<Button>("exitButton");
+
+    var levelLabel = container.Q<Label>("levelLabel");
+    levelLabel.text = $"Level {levelIndex}";
 
     continueButton.clicked += () => OnNextLevelClicked?.Invoke();
     exitButton.clicked += () => OnExitClicked?.Invoke();

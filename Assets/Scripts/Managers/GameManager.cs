@@ -132,8 +132,7 @@ public class GameManager : Singleton<GameManager> {
         CursorManager.Instance.SetCursorLockState(false);
         break;
       case GameState.LevelCompleted:
-        Debug.Log($"Level {LevelManager.Instance.CurrentLevel} completed");
-        menuPresenter.ShowLevelCompleted();
+        menuPresenter.ShowLevelCompleted(LevelManager.Instance.CurrentLevel);
         CursorManager.Instance.SetCursorLockState(false);
         break;
       case GameState.GameWon:

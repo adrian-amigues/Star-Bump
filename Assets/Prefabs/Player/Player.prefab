@@ -269,7 +269,7 @@ MonoBehaviour:
   - {fileID: 990178837698366566}
   - {fileID: 1926696802855823116}
   - {fileID: 3899044191585694949}
-  fadeOutDuration: 0.2
+  fadeOutDuration: 1
 --- !u!1 &7822494765396859710
 GameObject:
   m_ObjectHideFlags: 0

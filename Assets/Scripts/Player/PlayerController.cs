@@ -10,9 +10,11 @@ public class PlayerController : MonoBehaviour {
   [SerializeField] private float rotationSensitivity = 0.1f;
   [SerializeField] private bool useTrackpadMode = false;
   [SerializeField] private float trackpadSensitivityMultiplier = 3f;
+  [SerializeField] private float smoothTime = 0.1f;
 
-  public Vector2 CurrentVelocity { get; private set; }
+  public Vector2 CurrentVelocity => currentVelocity;
 
+  private Vector2 currentVelocity;
   private InputSystem_Actions controls;
   private Vector2 moveInput;
   private Rigidbody2D rb;
@@ -68,13 +70,15 @@ public class PlayerController : MonoBehaviour {
     Vector2 targetVelocity = moveInput.normalized * moveSpeed;
     var currentPos = rb.position;
 
+    var smoothedVelocity = Vector2.SmoothDamp(rb.linearVelocity, targetVelocity, ref currentVelocity, smoothTime);
+
     Vector2 predictedNextPosition = currentPos + targetVelocity * Time.fixedDeltaTime;
 
     if (!PlayerMovementBounds.Instance.IsWithinBounds(predictedNextPosition)) {
       Vector2 clampedPosition = PlayerMovementBounds.Instance.ClampToBounds(predictedNextPosition);
       rb.linearVelocity = (clampedPosition - currentPos) / Time.fixedDeltaTime;
     } else {
-      rb.linearVelocity = targetVelocity;
+      rb.linearVelocity = smoothedVelocity;
     }
 
   }

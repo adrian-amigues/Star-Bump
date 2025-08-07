@@ -120,7 +120,7 @@ PrefabInstance:
       objectReference: {fileID: 5061616460710531534, guid: ab3bb40cbffe7ad4d9848b4a70c6c05f, type: 3}
     - target: {fileID: 3803083993486805173, guid: 1c2c3e72808c4eb4c970e2882494bac5, type: 3}
       propertyPath: m_Name
-      value: Spawner_blank Variant
+      value: Spawner_double
       objectReference: {fileID: 0}
     - target: {fileID: 5172837568131323073, guid: 1c2c3e72808c4eb4c970e2882494bac5, type: 3}
       propertyPath: m_LocalPosition.x

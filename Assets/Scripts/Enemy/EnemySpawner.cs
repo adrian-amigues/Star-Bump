@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Splines;
 
 public class EnemySpawner : MonoBehaviour {
   // [SerializeField] private GameObject enemyPrefab;
@@ -45,6 +46,10 @@ public class EnemySpawner : MonoBehaviour {
   private void OnDisable() {
     StopSpawning();
     GetComponent<Damageable>().OnDeath -= HandleDeath;
+  }
+
+  private void Start() {
+    InitSplineMovement();
   }
 
   private void InitializeEnemySpawnArrows() {
@@ -118,6 +123,11 @@ public class EnemySpawner : MonoBehaviour {
     foreach (var collider in colliders) {
       collider.enabled = false;
     }
+  }
+
+  private void InitSplineMovement() {
+    if (!TryGetComponent<SplineAnimate>(out var splineAnimate)) return;
+    splineAnimate.NormalizedTime = 0.5f;
   }
 
   public void DestroySpawner() {

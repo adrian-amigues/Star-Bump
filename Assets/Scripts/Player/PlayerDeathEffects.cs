@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using UnityEngine;
 using PrimeTween;
+using Shapes;
 
 public class PlayerDeathEffects : MonoBehaviour {
   [SerializeField] private GameObject[] deathVfxList;
@@ -23,7 +24,6 @@ public class PlayerDeathEffects : MonoBehaviour {
 
   private void HandlePlayerDeath() {
     ExecuteDeathSequence();
-    // StartCoroutine(MainPlayerDeathRoutine());
   }
 
   private void ExecuteDeathSequence() {
@@ -32,8 +32,15 @@ public class PlayerDeathEffects : MonoBehaviour {
 
     var fadeGroup = Sequence.Create();
     foreach (var r in rendererList) {
-      var spriteRenderer = r.GetComponent<SpriteRenderer>();
-      fadeGroup.Group(Tween.Alpha(spriteRenderer, 0, fadeOutDuration));
+      if (r.TryGetComponent<ShapeRenderer>(out var shapeRenderer)) {
+        fadeGroup.Group(Tween.Custom(shapeRenderer.Color.a, 0, fadeOutDuration, (a) => {
+          var color = shapeRenderer.Color;
+          color.a = a;
+          shapeRenderer.Color = color;
+        }));
+      } else if (r.TryGetComponent<SpriteRenderer>(out var spriteRenderer)) {
+        fadeGroup.Group(Tween.Alpha(spriteRenderer, 0, fadeOutDuration));
+      }
     }
 
     Sequence.Create()
@@ -45,36 +52,6 @@ public class PlayerDeathEffects : MonoBehaviour {
         Destroy(gameObject);
       });
   }
-
-  // private IEnumerator MainPlayerDeathRoutine() {
-  //   DisableAllColliders();
-  //   StartCoroutine(FadeOutRoutine());
-  //   yield return new WaitForSeconds(fadeOutDuration);
-
-  //   TriggerExplosionEffects();
-  //   OnPlayerExploded?.Invoke();
-  //   ScreenShakeManager.Instance.ShakeScreen();
-  // }
-
-  // private IEnumerator FadeOutRoutine() {
-  //   float elapsed = 0f;
-  //   var spriteRenderers = rendererList.Select(r => r.GetComponent<SpriteRenderer>()).ToArray();
-
-  //   DisableShieldAnimators();
-
-  //   while (elapsed < fadeOutDuration) {
-  //     elapsed += Time.deltaTime;
-  //     float progress = elapsed / fadeOutDuration;
-  //     float alpha = Mathf.Lerp(1, 0, progress);
-
-  //     foreach (var spriteRenderer in spriteRenderers) {
-  //       var color = spriteRenderer.color;
-  //       color.a = alpha;
-  //       spriteRenderer.color = color;
-  //     }
-  //     yield return null;
-  //   }
-  // }
 
   private void TriggerExplosionEffects() {
     foreach (var vfx in deathVfxList) {

@@ -36,11 +36,9 @@ public class LevelManager : Singleton<LevelManager> {
     playerRigidbody.linearVelocity = Vector2.zero;
     playerRigidbody.angularVelocity = 0;
 
-
     // center camera on player
     // var camera = Camera.main;
     // camera.transform.position = player.transform.position;
-    Debug.Log("player rotation2: " + player.transform.rotation);
   }
 
   public void LoadLevel(int level) {

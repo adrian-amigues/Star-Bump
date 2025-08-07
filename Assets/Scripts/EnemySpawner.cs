@@ -52,7 +52,6 @@ public class EnemySpawner : MonoBehaviour {
     Vector2 direction = player.position - spawnPoint.position;
 
     var castOrigin = spawnPoint.position + (Vector3)direction.normalized * minDistanceToPlayer;
-    Debug.Log($"Cast origin: {castOrigin}");
     RaycastHit2D hit = Physics2D.CircleCast(castOrigin, 0.5f, direction, playerHitCastDistance, trajectoryStopLayers);
 
     return hit.collider != null && hit.collider.gameObject.layer == LayerMask.NameToLayer("TrajectoryStop");

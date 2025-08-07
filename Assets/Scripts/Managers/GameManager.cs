@@ -25,6 +25,7 @@ public class GameManager : Singleton<GameManager> {
   }
 
   private MenuUIPresenter menuPresenter;
+  private GameplayUIPresenter gameplayUIPresenter;
   // private PlayerController player;
   // private PlayerDeathEffects playerDeathEffects;
   private TimeManager timeManager;
@@ -34,6 +35,7 @@ public class GameManager : Singleton<GameManager> {
   protected override void Awake() {
     base.Awake();
     timeManager = GetComponent<TimeManager>();
+    gameplayUIPresenter = FindFirstObjectByType<GameplayUIPresenter>();
   }
 
 
@@ -207,6 +209,7 @@ public class GameManager : Singleton<GameManager> {
     }
     OnPlayerSpawned?.Invoke(newPlayer);
     InitPlayerCallbacks(newPlayer);
+    gameplayUIPresenter.InitializeModels();
   }
 
   public bool TryGetPlayer(out Transform playerTransform) {

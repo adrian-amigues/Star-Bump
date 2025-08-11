@@ -54,6 +54,7 @@ public class PlayerDeathEffects : MonoBehaviour {
   }
 
   private void TriggerExplosionEffects() {
+    SoundManager.PlaySound(SoundType.PlayerExplosion);
     foreach (var vfx in deathVfxList) {
       var particleSystem = vfx.GetComponent<ParticleSystem>();
       vfx.transform.SetParent(null);

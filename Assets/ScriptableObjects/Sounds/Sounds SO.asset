@@ -14,37 +14,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: MissileLaunch
-    volume: 0.161
+    volume: 0.228
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 4f0af9f18c41d24489688d2764451792, type: 3}
   - name: MissileHit
-    volume: 0.205
+    volume: 0.28
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: eec712c97d819ca47ac684f57ccd8d1a, type: 3}
   - name: MissileHitBarrier
-    volume: 0.274
+    volume: 0.328
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 00e4ceec9e8fe544bad12a592a050d0f, type: 3}
   - name: MissileExplosion
-    volume: 0.234
+    volume: 0.284
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 649c8982920f06747aaa40b2dfeca010, type: 3}
   - name: MissileBounce
-    volume: 0.298
+    volume: 0.294
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: f80c85e256202e448b1be986bafe672b, type: 3}
   - name: MissileBounceWrongShield
-    volume: 0.338
+    volume: 0.329
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: b07d5b53b8d6ae845a4a8b503d4f62c7, type: 3}
   - name: EnemyExplosion
-    volume: 0.303
+    volume: 0.382
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: 0f1a682a191c84d43b5b4ba603ae8e61, type: 3}
@@ -53,3 +53,33 @@ MonoBehaviour:
     mixer: {fileID: 0}
     sounds:
     - {fileID: 8300000, guid: eec712c97d819ca47ac684f57ccd8d1a, type: 3}
+  - name: PlayerExplosion
+    volume: 0.648
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: 731c6d05192d9b346b33ddba2c04a3b9, type: 3}
+  - name: GameStart
+    volume: 0.19
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: 2b59967244264f644bd370c25b82135f, type: 3}
+  - name: LevelCompleted
+    volume: 0.297
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: 87dbe8d17675fb44c9d5ddb8ac6c30a0, type: 3}
+  - name: GameWon
+    volume: 0.307
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: c6123f60516edf846996b03a6201802b, type: 3}
+  - name: GameOver
+    volume: 0.293
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: b46308cea4bc0db42a18703baff05f55, type: 3}
+  - name: ButtonClick
+    volume: 0.263
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: f9181cacbb789034f98d00e9aa03184b, type: 3}

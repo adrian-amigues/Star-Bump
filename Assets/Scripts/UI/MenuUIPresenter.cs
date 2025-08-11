@@ -30,6 +30,11 @@ public class MenuUIPresenter : MonoBehaviour {
     return container;
   }
 
+  private void ButtonClick(Action action) {
+    action?.Invoke();
+    SoundManager.PlaySound(SoundType.ButtonClick);
+  }
+
   public void Clear() {
     root.Clear();
   }
@@ -40,8 +45,8 @@ public class MenuUIPresenter : MonoBehaviour {
     var startButton = container.Q<Button>("startButton");
     var exitButton = container.Q<Button>("exitButton");
 
-    startButton.clicked += () => OnStartClicked?.Invoke();
-    exitButton.clicked += () => OnExitClicked?.Invoke();
+    startButton.clicked += () => ButtonClick(OnStartClicked);
+    exitButton.clicked += () => ButtonClick(OnExitClicked);
 
     CursorManager.Instance.SetCursorLockState(false);
   }
@@ -51,8 +56,8 @@ public class MenuUIPresenter : MonoBehaviour {
     var tryAgainButton = container.Q<Button>("tryAgainButton");
     var exitButton = container.Q<Button>("exitButton");
 
-    tryAgainButton.clicked += () => OnTryAgainClicked?.Invoke();
-    exitButton.clicked += () => OnExitClicked?.Invoke();
+    tryAgainButton.clicked += () => ButtonClick(OnTryAgainClicked);
+    exitButton.clicked += () => ButtonClick(OnExitClicked);
 
     CursorManager.Instance.SetCursorLockState(false);
   }
@@ -62,8 +67,8 @@ public class MenuUIPresenter : MonoBehaviour {
     var continueButton = container.Q<Button>("continueButton");
     var exitButton = container.Q<Button>("exitButton");
 
-    continueButton.clicked += () => OnContinueClicked?.Invoke();
-    exitButton.clicked += () => OnExitClicked?.Invoke();
+    continueButton.clicked += () => ButtonClick(OnContinueClicked);
+    exitButton.clicked += () => ButtonClick(OnExitClicked);
   }
 
   public void ShowLevelCompleted(int levelIndex) {
@@ -74,8 +79,8 @@ public class MenuUIPresenter : MonoBehaviour {
     var levelLabel = container.Q<Label>("levelLabel");
     levelLabel.text = $"Level {levelIndex}";
 
-    continueButton.clicked += () => OnNextLevelClicked?.Invoke();
-    exitButton.clicked += () => OnExitClicked?.Invoke();
+    continueButton.clicked += () => ButtonClick(OnNextLevelClicked);
+    exitButton.clicked += () => ButtonClick(OnExitClicked);
   }
 
   public void ShowGameWon() {
@@ -83,7 +88,7 @@ public class MenuUIPresenter : MonoBehaviour {
     var mainMenuButton = container.Q<Button>("mainMenuButton");
     var exitButton = container.Q<Button>("exitButton");
 
-    mainMenuButton.clicked += () => OnMainMenuClicked?.Invoke();
-    exitButton.clicked += () => OnExitClicked?.Invoke();
+    mainMenuButton.clicked += () => ButtonClick(OnMainMenuClicked);
+    exitButton.clicked += () => ButtonClick(OnExitClicked);
   }
 }

@@ -117,8 +117,8 @@ public class GameManager : Singleton<GameManager> {
         menuPresenter.Clear();
         CursorManager.Instance.SetCursorLockState(true);
         timeManager.SetTimeScale(1);
-        // LevelManager.Instance.LoadLevel(LevelManager.Instance.CurrentLevel);
         SimpleAudioManager.Manager.instance.SetIntensity(1);
+        // SoundManager.PlaySound(SoundType.GameStart);
         break;
       case GameState.MainMenu:
         menuPresenter.ShowMainMenu();
@@ -139,16 +139,19 @@ public class GameManager : Singleton<GameManager> {
         menuPresenter.ShowGameOver();
         CursorManager.Instance.SetCursorLockState(false);
         SimpleAudioManager.Manager.instance.SetIntensity(0);
+        // SoundManager.PlaySound(SoundType.GameOver);
         break;
       case GameState.LevelCompleted:
         menuPresenter.ShowLevelCompleted(LevelManager.Instance.CurrentLevel);
         CursorManager.Instance.SetCursorLockState(false);
         SimpleAudioManager.Manager.instance.SetIntensity(0);
+        // SoundManager.PlaySound(SoundType.LevelCompleted);
         break;
       case GameState.GameWon:
         menuPresenter.ShowGameWon();
         CursorManager.Instance.SetCursorLockState(false);
         SimpleAudioManager.Manager.instance.SetIntensity(0);
+        // SoundManager.PlaySound(SoundType.GameWon);
         break;
     }
   }

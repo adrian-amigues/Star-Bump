@@ -7,4 +7,10 @@ public enum SoundType {
   MissileBounceWrongShield,
   EnemyExplosion,
   EnemyHit,
+  PlayerExplosion,
+  GameStart,
+  LevelCompleted,
+  GameWon,
+  GameOver,
+  ButtonClick,
 }

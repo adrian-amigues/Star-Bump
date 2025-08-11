@@ -118,28 +118,37 @@ public class GameManager : Singleton<GameManager> {
         CursorManager.Instance.SetCursorLockState(true);
         timeManager.SetTimeScale(1);
         // LevelManager.Instance.LoadLevel(LevelManager.Instance.CurrentLevel);
+        SimpleAudioManager.Manager.instance.SetIntensity(1);
         break;
       case GameState.MainMenu:
         menuPresenter.ShowMainMenu();
         CursorManager.Instance.SetCursorLockState(false);
         timeManager.SetTimeScale(1);
+        SimpleAudioManager.Manager.instance.PlaySong(new SimpleAudioManager.Manager.PlaySongOptions() {
+          song = 0,
+          intensity = 0,
+        });
         break;
       case GameState.Paused:
         menuPresenter.ShowPauseMenu();
         CursorManager.Instance.SetCursorLockState(false);
+        SimpleAudioManager.Manager.instance.SetIntensity(0);
         timeManager.SetTimeScale(0);
         break;
       case GameState.GameOver:
         menuPresenter.ShowGameOver();
         CursorManager.Instance.SetCursorLockState(false);
+        SimpleAudioManager.Manager.instance.SetIntensity(0);
         break;
       case GameState.LevelCompleted:
         menuPresenter.ShowLevelCompleted(LevelManager.Instance.CurrentLevel);
         CursorManager.Instance.SetCursorLockState(false);
+        SimpleAudioManager.Manager.instance.SetIntensity(0);
         break;
       case GameState.GameWon:
         menuPresenter.ShowGameWon();
         CursorManager.Instance.SetCursorLockState(false);
+        SimpleAudioManager.Manager.instance.SetIntensity(0);
         break;
     }
   }

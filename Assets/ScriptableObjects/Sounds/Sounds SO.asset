@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f48df4a518f47ad46aba78b8b23fc0da, type: 3}
+  m_Name: Sounds SO
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: MissileLaunch
+    volume: 0.161
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: 4f0af9f18c41d24489688d2764451792, type: 3}
+  - name: MissileHit
+    volume: 0.205
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: eec712c97d819ca47ac684f57ccd8d1a, type: 3}
+  - name: MissileHitBarrier
+    volume: 0.274
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: 00e4ceec9e8fe544bad12a592a050d0f, type: 3}
+  - name: MissileExplosion
+    volume: 0.234
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: 649c8982920f06747aaa40b2dfeca010, type: 3}
+  - name: MissileBounce
+    volume: 0.298
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: f80c85e256202e448b1be986bafe672b, type: 3}
+  - name: MissileBounceWrongShield
+    volume: 0.338
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: b07d5b53b8d6ae845a4a8b503d4f62c7, type: 3}
+  - name: EnemyExplosion
+    volume: 0.303
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: 0f1a682a191c84d43b5b4ba603ae8e61, type: 3}
+  - name: EnemyHit
+    volume: 0.228
+    mixer: {fileID: 0}
+    sounds:
+    - {fileID: 8300000, guid: eec712c97d819ca47ac684f57ccd8d1a, type: 3}

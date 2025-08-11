@@ -45,6 +45,7 @@ public class EnemyMissile : MonoBehaviour {
 
       Instantiate(gameBoundsParticleSpawner, transform.position, Quaternion.Euler(0, 0, angle));
       HandleMissileCollision();
+      SoundManager.PlaySound(SoundType.MissileHitBarrier);
     }
   }
 
@@ -52,14 +53,23 @@ public class EnemyMissile : MonoBehaviour {
     if (other.collider.TryGetComponent(out PlayerShield shield)) {
       if (shield.shieldColor == MissileData.color) {
         hasHitShield = true;
+        SoundManager.PlaySound(SoundType.MissileBounce);
+      } else {
+        SoundManager.PlaySound(SoundType.MissileBounceWrongShield);
       }
     } else if (other.collider.TryGetComponent(out EnemyMissile otherMissile)) {
       // if (otherMissile.MissileData.color == MissileData.color) {
       HandleMissileCollision();
+      SoundManager.PlaySound(SoundType.MissileExplosion);
       // }
     } else if (other.collider.TryGetComponent(out Damageable damageable)) {
       damageable.TakeDamage(missileData.damage);
       HandleMissileCollision();
+      if (other.collider.tag == "Player") {
+        SoundManager.PlaySound(SoundType.MissileHit);
+      } else {
+        SoundManager.PlaySound(SoundType.EnemyHit);
+      }
     }
   }
 

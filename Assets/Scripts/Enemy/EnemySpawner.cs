@@ -97,6 +97,7 @@ public class EnemySpawner : MonoBehaviour {
   private async UniTask SpawnEnemiesFromPoints(CancellationToken cancellationToken) {
     foreach (var spawnArrow in enemySpawnArrows) {
       spawnArrow.SpawnEnemy();
+      SoundManager.PlaySound(SoundType.MissileLaunch);
       await UniTask.Delay(TimeSpan.FromSeconds(spawnRate), cancellationToken: cancellationToken);
     }
   }
@@ -116,6 +117,7 @@ public class EnemySpawner : MonoBehaviour {
     StopSpawning();
     DisableAllColliders();
     timelineDirector.Play();
+    SoundManager.PlaySound(SoundType.EnemyExplosion);
   }
 
   private void DisableAllColliders() {
@@ -127,6 +129,7 @@ public class EnemySpawner : MonoBehaviour {
 
   private void InitSplineMovement() {
     if (!TryGetComponent<SplineAnimate>(out var splineAnimate)) return;
+    // For starting in the middle of the spline
     splineAnimate.NormalizedTime = 0.5f;
   }
 

@@ -206,6 +206,9 @@ public class GameManager : Singleton<GameManager> {
   private void HandleNextLevelClicked() {
     LevelManager.Instance.NextLevel();
     ChangeState(GameState.Playing);
+    if (TryGetPlayer(out var player)) {
+      player.GetComponentInChildren<Damageable>().ResetHealth();
+    }
   }
 
   private void HandleMainMenuClicked() {

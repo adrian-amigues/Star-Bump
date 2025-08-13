@@ -11,11 +11,17 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
   private ScrollView debugOverlayContainer;
   private Dictionary<Key, Action> debugActions = new Dictionary<Key, Action>();
 
+  private readonly Key[] numberKeys = {
+    Key.Digit1, Key.Digit2, Key.Digit3, Key.Digit4, Key.Digit5,
+    Key.Digit6, Key.Digit7, Key.Digit8, Key.Digit9, Key.Digit0
+  };
+
   private void Start() {
     var root = uiDocument.rootVisualElement;
     debugOverlayContainer = root.Q<ScrollView>();
 
     AddDebugActions();
+    AddDebugShortcuts();
     InitialDebugState();
   }
 
@@ -24,11 +30,21 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
       ToggleDebugOverlay();
     }
 
+    if (Keyboard.current.leftAltKey.isPressed) {
+      for (int i = 0; i < numberKeys.Length; i++) {
+        if (Keyboard.current[numberKeys[i]].wasPressedThisFrame) {
+          LevelManager.Instance.LoadLevel(i + 1);
+          return;
+        }
+      }
+    }
+
     foreach (var (key, action) in debugActions) {
       if (Keyboard.current[key].wasPressedThisFrame) {
         action();
       }
     }
+
   }
 
   private void ToggleDebugOverlay() {
@@ -36,6 +52,14 @@ public class DebuggerOverlayPresenter : MonoBehaviour {
       debugOverlayContainer.style.display == DisplayStyle.None
         ? DisplayStyle.Flex
         : DisplayStyle.None;
+  }
+
+  private void AddDebugShortcuts() {
+    debugActions.Add(Key.Digit1, () => {
+      if (GameManager.Instance.TryGetPlayer(out var player)) {
+        player.GetComponentInChildren<Damageable>().TakeDamage(100);
+      }
+    });
   }
 
   private void AddDebugActions() {

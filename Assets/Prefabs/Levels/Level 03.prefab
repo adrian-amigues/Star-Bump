@@ -15485,6 +15485,7 @@ MonoBehaviour:
   miniHealthBarPosition: {fileID: 9127643586092675415}
   shakeScreenOnDamage: 0
   maxHealth: 3
+  hitFeedback: {fileID: 0}
 --- !u!210 &5684066924931430575
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -31102,6 +31103,7 @@ MonoBehaviour:
   miniHealthBarPosition: {fileID: 4765402488874611649}
   shakeScreenOnDamage: 0
   maxHealth: 3
+  hitFeedback: {fileID: 0}
 --- !u!210 &7547274362133475331
 SortingGroup:
   m_ObjectHideFlags: 0

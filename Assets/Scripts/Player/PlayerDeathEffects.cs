@@ -4,11 +4,13 @@ using System;
 using UnityEngine;
 using PrimeTween;
 using Shapes;
+using MoreMountains.Feedbacks;
 
 public class PlayerDeathEffects : MonoBehaviour {
   [SerializeField] private GameObject[] deathVfxList;
   [SerializeField] private GameObject[] rendererList;
   [SerializeField] private float fadeOutDuration = 1f;
+  [SerializeField] private MMF_Player deathFeedback;
 
   private PlayerShield[] playerShields;
 
@@ -46,6 +48,7 @@ public class PlayerDeathEffects : MonoBehaviour {
     Sequence.Create()
       .Chain(fadeGroup)
       .OnComplete(() => {
+        deathFeedback?.PlayFeedbacks();
         TriggerExplosionEffects();
         OnPlayerExploded?.Invoke();
         ScreenShakeManager.Instance.ShakeScreen();

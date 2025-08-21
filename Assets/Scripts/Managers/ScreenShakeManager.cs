@@ -2,6 +2,7 @@ using PrimeTween;
 using Unity.Cinemachine;
 using UnityEngine;
 
+// Unused for now
 public class ScreenShakeManager : Singleton<ScreenShakeManager> {
   private CinemachineImpulseSource impulseSource;
 

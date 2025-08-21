@@ -5541,6 +5541,7 @@ MonoBehaviour:
   miniHealthBarPosition: {fileID: 8688452251374902405}
   shakeScreenOnDamage: 0
   maxHealth: 3
+  hitFeedback: {fileID: 0}
 --- !u!210 &1056467794640220836
 SortingGroup:
   m_ObjectHideFlags: 0

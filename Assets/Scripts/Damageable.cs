@@ -1,6 +1,7 @@
 using System;
 using TriInspector;
 using UnityEngine;
+using MoreMountains.Feedbacks;
 
 public class Damageable : MonoBehaviour {
   [SerializeField] private bool showMiniHealthBar = false;
@@ -9,6 +10,7 @@ public class Damageable : MonoBehaviour {
 
   [SerializeField] private bool shakeScreenOnDamage = false;
   [SerializeField] private int maxHealth = 3;
+  [SerializeField] private MMF_Player hitFeedback;
 
   public Action OnDeath;
 
@@ -53,8 +55,9 @@ public class Damageable : MonoBehaviour {
       HandleDeath();
     }
 
+
     if (shakeScreenOnDamage) {
-      ScreenShakeManager.Instance.ShakeScreen();
+      hitFeedback?.PlayFeedbacks();
     }
     OnHealthChanged?.Invoke();
   }

@@ -22,6 +22,14 @@
     transition-timing-function: ease-in-out;
     position: relative;
     -unity-font-definition: url("project://database/Assets/UI/BIG%20JOHN.otf?fileID=12800000&guid=629d93e25f605324c9a226ca3d123739&type=3#BIG JOHN");
+    -unity-text-align: middle-center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: center;
+    align-self: auto;
+    align-content: auto;
+    padding-top: 15px;
 }
 
 .neon-button:hover {
@@ -34,4 +42,14 @@
     border-right-width: 2px;
     border-bottom-width: 2px;
     border-left-width: 2px;
+}
+
+.helpText {
+    color: rgb(221, 241, 240);
+    font-size: 26px;
+}
+
+.helpTitle {
+    -unity-font-style: bold;
+    font-size: 36px;
 }

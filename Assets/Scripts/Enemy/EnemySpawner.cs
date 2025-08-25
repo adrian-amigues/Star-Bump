@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Splines;
+using MoreMountains.Feedbacks;
 
 public class EnemySpawner : MonoBehaviour {
   // [SerializeField] private GameObject enemyPrefab;
@@ -12,6 +13,7 @@ public class EnemySpawner : MonoBehaviour {
   [SerializeField] private float spawnRate = 2f;
   [SerializeField] private float initialDelay = 1f;
   [SerializeField] private GameObject[] enemyPrefabs;
+  [SerializeField] private MMF_Player hitFeedback;
 
   private EnemySpawnArrow[] enemySpawnArrows;
   private float playerHitCastDistance = 20f;
@@ -50,6 +52,12 @@ public class EnemySpawner : MonoBehaviour {
 
   private void Start() {
     InitSplineMovement();
+  }
+
+  void OnCollisionEnter2D(Collision2D other) {
+    if (other.collider.TryGetComponent(out EnemyMissile missile)) {
+      hitFeedback?.PlayFeedbacks();
+    }
   }
 
   private void InitializeEnemySpawnArrows() {

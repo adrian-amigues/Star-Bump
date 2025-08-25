@@ -5,11 +5,13 @@ using Cysharp.Threading.Tasks;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
+using MoreMountains.Feedbacks;
 
 public class GameManager : Singleton<GameManager> {
   [SerializeField] private GameObject playerPrefab;
   [SerializeField] public Transform playerSpawnPoint;
   [SerializeField] public ColorData mainColors;
+  [SerializeField] public MMF_Player winFeedback;
 
   public Action<GameObject> OnPlayerSpawned;
   public GameState State { get; private set; }
@@ -67,14 +69,11 @@ public class GameManager : Singleton<GameManager> {
   private void Init() {
     InitUICallbacks();
     LevelManager.Instance.OnGameWon += GameWon;
+    // LevelManager.Instance.OnLevelCompleted += GameWon;
     LevelManager.Instance.OnLevelCompleted += HandleLevelCompleted;
 
     var player = FindFirstObjectByType<PlayerController>();
     InitPlayerCallbacks(player.gameObject);
-
-    // player = FindFirstObjectByType<PlayerController>();
-    // playerDeathEffects = player.GetComponentInChildren<PlayerDeathEffects>();
-    // playerDeathEffects.OnPlayerExploded += HandlePlayerExploded;
 
     switch (State) {
       case GameState.GameOver:
@@ -103,11 +102,11 @@ public class GameManager : Singleton<GameManager> {
   }
 
   private void ExitState(GameState state) {
-    // switch (state) {
-    //   case GameState.GameOver:
-    //     Debug.Log("ExitState GameOver");
-    //     break;
-    // }
+    switch (state) {
+      case GameState.GameWon:
+        winFeedback?.StopFeedbacks();
+        break;
+    }
   }
 
   private void EnterState(GameState state) {
@@ -150,7 +149,8 @@ public class GameManager : Singleton<GameManager> {
       case GameState.GameWon:
         menuPresenter.ShowGameWon();
         CursorManager.Instance.SetCursorLockState(false);
-        SimpleAudioManager.Manager.instance.SetIntensity(0);
+        SimpleAudioManager.Manager.instance.SetIntensity(2);
+        winFeedback?.PlayFeedbacks();
         // SoundManager.PlaySound(SoundType.GameWon);
         break;
     }

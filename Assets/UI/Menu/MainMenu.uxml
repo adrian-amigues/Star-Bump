@@ -9,4 +9,10 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:VisualElement style="flex-grow: 0; align-items: flex-start; flex-direction: column; flex-basis: auto; bottom: 126px; position: absolute; left: 86px;">
+        <ui:Label text="Controls&#10;" class="helpText helpTitle" style="flex-shrink: 1;" />
+        <ui:Label text="• Move with wasd or the arrow keys&#10;• Rotate by moving the mouse left or right" class="helpText" />
+        <ui:Label text="Tips" class="helpText helpTitle" style="flex-shrink: 1;" />
+        <ui:Label text="• Use the blue and pink shields to deflect missiles against enemies&#10;• Avoid deflecting a missile with the opposite color shield..." class="helpText" />
+    </ui:VisualElement>
 </ui:UXML>

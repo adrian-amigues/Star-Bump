@@ -1,9 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using MoreMountains.Feedbacks;
 
 public class PlayerShield : MonoBehaviour {
   [SerializeField] public MissileColor shieldColor = MissileColor.Pink;
   [SerializeField] public float shieldCooldown = 3f;
+  [SerializeField] private MMF_Player shieldHitFeedback;
 
   private float momentumTransfer = 0.1f;
   private Animator animator;
@@ -20,6 +22,8 @@ public class PlayerShield : MonoBehaviour {
     if (collision.gameObject.TryGetComponent(out EnemyMissile missile)) {
       if (missile.MissileData.color != shieldColor) {
         animator.SetTrigger("Deactivate");
+      } else {
+        shieldHitFeedback?.PlayFeedbacks();
       }
     }
   }

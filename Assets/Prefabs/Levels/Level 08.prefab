@@ -56,6 +56,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2523362305688191716}
     m_Modifications:
+    - target: {fileID: 1205334428973414956, guid: 4d81b6f559c9d0241a9facf06ff5cf70, type: 3}
+      propertyPath: m_Color.g
+      value: 0.21568629
+      objectReference: {fileID: 0}
+    - target: {fileID: 1205334428973414956, guid: 4d81b6f559c9d0241a9facf06ff5cf70, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9921569
+      objectReference: {fileID: 0}
     - target: {fileID: 4110915746788492349, guid: 4d81b6f559c9d0241a9facf06ff5cf70, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4
@@ -98,7 +106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5332878740930254921, guid: 4d81b6f559c9d0241a9facf06ff5cf70, type: 3}
       propertyPath: m_Name
-      value: Spawner_blue
+      value: Spawner_pink
       objectReference: {fileID: 0}
     - target: {fileID: 6198114775419139978, guid: 4d81b6f559c9d0241a9facf06ff5cf70, type: 3}
       propertyPath: m_LocalPosition.x
@@ -112,6 +120,10 @@ PrefabInstance:
       propertyPath: initialDelay
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7077099791089549310, guid: 4d81b6f559c9d0241a9facf06ff5cf70, type: 3}
+      propertyPath: 'enemyPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 5061616460710531534, guid: ab3bb40cbffe7ad4d9848b4a70c6c05f, type: 3}
     - target: {fileID: 7085946507858118774, guid: 4d81b6f559c9d0241a9facf06ff5cf70, type: 3}
       propertyPath: m_ColliderPaths.Array.size
       value: 0
@@ -473,6 +485,10 @@ PrefabInstance:
     - target: {fileID: 7085946507858118774, guid: 4d81b6f559c9d0241a9facf06ff5cf70, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[1].x
       value: 0.047097202
+      objectReference: {fileID: 0}
+    - target: {fileID: 7085946507858118774, guid: 4d81b6f559c9d0241a9facf06ff5cf70, type: 3}
+      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[1].y
+      value: -0.88354653
       objectReference: {fileID: 0}
     - target: {fileID: 7085946507858118774, guid: 4d81b6f559c9d0241a9facf06ff5cf70, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[2].x

@@ -73,4 +73,10 @@ public class LevelManager : Singleton<LevelManager> {
   public void ResetCurrentLevel() {
     LoadLevel(CurrentLevel);
   }
+
+  public void ClearLevel() {
+    if (currentLevelInstance) {
+      Destroy(currentLevelInstance);
+    }
+  }
 }

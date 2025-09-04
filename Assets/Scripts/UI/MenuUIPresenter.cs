@@ -35,6 +35,14 @@ public class MenuUIPresenter : MonoBehaviour {
     SoundManager.PlaySound(SoundType.ButtonClick);
   }
 
+  private void ConditionalExitButton(Button button) {
+#if UNITY_WEBGL
+    button.style.display = DisplayStyle.None;
+#else
+    button.clicked += () => ButtonClick(OnExitClicked);
+#endif
+  }
+
   public void Clear() {
     root.Clear();
   }
@@ -46,7 +54,7 @@ public class MenuUIPresenter : MonoBehaviour {
     var exitButton = container.Q<Button>("exitButton");
 
     startButton.clicked += () => ButtonClick(OnStartClicked);
-    exitButton.clicked += () => ButtonClick(OnExitClicked);
+    ConditionalExitButton(exitButton);
 
     CursorManager.Instance.SetCursorLockState(false);
   }
@@ -54,10 +62,10 @@ public class MenuUIPresenter : MonoBehaviour {
   public void ShowGameOver() {
     var container = ShowMenu(gameOverTemplate);
     var tryAgainButton = container.Q<Button>("tryAgainButton");
-    var exitButton = container.Q<Button>("exitButton");
+    var mainMenuButton = container.Q<Button>("mainMenuButton");
 
     tryAgainButton.clicked += () => ButtonClick(OnTryAgainClicked);
-    exitButton.clicked += () => ButtonClick(OnExitClicked);
+    mainMenuButton.clicked += () => ButtonClick(OnMainMenuClicked);
 
     CursorManager.Instance.SetCursorLockState(false);
   }
@@ -65,22 +73,22 @@ public class MenuUIPresenter : MonoBehaviour {
   public void ShowPauseMenu() {
     var container = ShowMenu(pauseMenuTemplate);
     var continueButton = container.Q<Button>("continueButton");
-    var exitButton = container.Q<Button>("exitButton");
+    var mainMenuButton = container.Q<Button>("mainMenuButton");
 
     continueButton.clicked += () => ButtonClick(OnContinueClicked);
-    exitButton.clicked += () => ButtonClick(OnExitClicked);
+    mainMenuButton.clicked += () => ButtonClick(OnMainMenuClicked);
   }
 
   public void ShowLevelCompleted(int levelIndex) {
     var container = ShowMenu(levelCompletedTemplate);
     var continueButton = container.Q<Button>("continueButton");
-    var exitButton = container.Q<Button>("exitButton");
+    var mainMenuButton = container.Q<Button>("mainMenuButton");
 
     var levelLabel = container.Q<Label>("levelLabel");
     levelLabel.text = $"Level {levelIndex}";
 
     continueButton.clicked += () => ButtonClick(OnNextLevelClicked);
-    exitButton.clicked += () => ButtonClick(OnExitClicked);
+    mainMenuButton.clicked += () => ButtonClick(OnMainMenuClicked);
   }
 
   public void ShowGameWon() {
@@ -89,6 +97,6 @@ public class MenuUIPresenter : MonoBehaviour {
     var exitButton = container.Q<Button>("exitButton");
 
     mainMenuButton.clicked += () => ButtonClick(OnMainMenuClicked);
-    exitButton.clicked += () => ButtonClick(OnExitClicked);
+    ConditionalExitButton(exitButton);
   }
 }

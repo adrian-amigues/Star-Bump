@@ -1,6 +1,6 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Menu/CommonStyles.uss?fileID=7433441132597879392&amp;guid=6084db64d9ccb485fa7bd8d394bb8279&amp;type=3#CommonStyles" />
-    <ui:VisualElement style="flex-grow: 1; position: absolute; bottom: 0; right: 0; left: 0; top: 0; align-items: center; justify-content: center; flex-direction: row;">
+    <ui:VisualElement style="flex-grow: 1; position: absolute; bottom: 0; right: -3px; left: 5px; top: 0; align-items: center; justify-content: center; flex-direction: row;">
         <ui:VisualElement name="VisualElement" style="flex-grow: 1; justify-content: center; margin-bottom: 0%; align-items: center; flex-direction: row;">
             <ui:Label text="STAR BUMP" style="color: rgb(221, 241, 240); font-size: 90px; -unity-font-definition: url(&quot;project://database/Assets/UI/BIG%20JOHN.otf?fileID=12800000&amp;guid=629d93e25f605324c9a226ca3d123739&amp;type=3#BIG JOHN&quot;); -unity-font-style: normal; margin-bottom: 18%;" />
             <ui:VisualElement name="VisualElement" style="flex-grow: 1; position: absolute; top: 73%; align-items: center; justify-content: flex-start; align-self: auto; align-content: center; flex-direction: column; height: 281px; min-height: 78px;">
@@ -11,8 +11,11 @@
     </ui:VisualElement>
     <ui:VisualElement style="flex-grow: 0; align-items: flex-start; flex-direction: column; flex-basis: auto; bottom: 126px; position: absolute; left: 86px;">
         <ui:Label text="Controls&#10;" class="helpText helpTitle" style="flex-shrink: 1;" />
-        <ui:Label text="• Move with wasd or the arrow keys&#10;• Rotate by moving the mouse left or right" class="helpText" />
+        <ui:Label text="• Move with wasd&#10;• Rotate by moving the mouse left or right, &#10;   or with the left and right keys&#10;• Press Space or Escape to pause" class="helpText" />
         <ui:Label text="Tips" class="helpText helpTitle" style="flex-shrink: 1;" />
         <ui:Label text="• Use the blue and pink shields to deflect missiles against enemies&#10;• Avoid deflecting a missile with the opposite color shield..." class="helpText" />
+    </ui:VisualElement>
+    <ui:VisualElement style="flex-grow: 0; align-items: flex-start; flex-direction: column; flex-basis: auto; bottom: 129px; position: absolute; left: auto; right: 104px;">
+        <ui:Label text="Made by Adrian Amigues" class="helpText helpTitle" style="flex-shrink: 1;" />
     </ui:VisualElement>
 </ui:UXML>

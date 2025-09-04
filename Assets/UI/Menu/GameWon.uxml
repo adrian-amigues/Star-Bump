@@ -10,6 +10,9 @@
                 <ui:Button text="Main menu" name="mainMenuButton" class="neon-button" style="margin-bottom: 46px; -unity-font-definition: url(&quot;project://database/Assets/UI/BIG%20JOHN.otf?fileID=12800000&amp;guid=629d93e25f605324c9a226ca3d123739&amp;type=3#BIG JOHN&quot;);" />
                 <ui:Button text="Exit&#10;" display-tooltip-when-elided="false" name="exitButton" class="neon-button" style="-unity-font-definition: url(&quot;project://database/Assets/UI/BIG%20JOHN.otf?fileID=12800000&amp;guid=629d93e25f605324c9a226ca3d123739&amp;type=3#BIG JOHN&quot;);" />
             </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 1; position: absolute; bottom: 0;">
+                <ui:Label text="Thanks for playing!&#10;" class="helpText helpTitle" style="top: 34px;" />
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

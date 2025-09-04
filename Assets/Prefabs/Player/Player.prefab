@@ -388,6 +388,7 @@ MonoBehaviour:
   useTrackpadMode: 0
   trackpadSensitivityMultiplier: 5
   smoothTime: 0.1
+  keyboardRotationSpeed: 10
 --- !u!114 &7881576133492068995
 MonoBehaviour:
   m_ObjectHideFlags: 0

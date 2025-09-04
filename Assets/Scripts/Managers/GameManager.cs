@@ -31,18 +31,19 @@ public class GameManager : Singleton<GameManager> {
   // private PlayerController player;
   // private PlayerDeathEffects playerDeathEffects;
   private TimeManager timeManager;
+  private InputAction pauseAction;
 
-  // private GameState currentState;
 
   protected override void Awake() {
     base.Awake();
     timeManager = GetComponent<TimeManager>();
     gameplayUIPresenter = FindFirstObjectByType<GameplayUIPresenter>();
+    pauseAction = InputSystem.actions.FindAction("Pause");
   }
 
 
   private void Update() {
-    if (Keyboard.current.escapeKey.wasPressedThisFrame) {
+    if (pauseAction.WasPressedThisFrame()) {
       switch (State) {
         case GameState.Playing:
           ChangeState(GameState.Paused);
@@ -97,7 +98,7 @@ public class GameManager : Singleton<GameManager> {
     var previousState = State;
     ExitState(previousState);
     State = newState;
-    EnterState(newState);
+    EnterState(newState, previousState);
     // OnStateChanged?.Invoke(previousState, newState);
   }
 
@@ -109,7 +110,7 @@ public class GameManager : Singleton<GameManager> {
     }
   }
 
-  private void EnterState(GameState state) {
+  private void EnterState(GameState state, GameState previousState) {
     Debug.Log("EnterState " + state);
     switch (state) {
       case GameState.Playing:
@@ -117,9 +118,17 @@ public class GameManager : Singleton<GameManager> {
         CursorManager.Instance.SetCursorLockState(true);
         timeManager.SetTimeScale(1);
         SimpleAudioManager.Manager.instance.SetIntensity(1);
-        // SoundManager.PlaySound(SoundType.GameStart);
+        if (previousState != GameState.Paused) {
+          if (TryGetPlayer(out var player)) {
+            player.GetComponentInChildren<Damageable>().ResetHealth();
+          } else {
+            SpawnPlayer();
+          }
+        }
         break;
       case GameState.MainMenu:
+        LevelManager.Instance.ClearLevel();
+        SpawnPlayerIfNotExists();
         menuPresenter.ShowMainMenu();
         CursorManager.Instance.SetCursorLockState(false);
         timeManager.SetTimeScale(1);
@@ -138,20 +147,17 @@ public class GameManager : Singleton<GameManager> {
         menuPresenter.ShowGameOver();
         CursorManager.Instance.SetCursorLockState(false);
         SimpleAudioManager.Manager.instance.SetIntensity(0);
-        // SoundManager.PlaySound(SoundType.GameOver);
         break;
       case GameState.LevelCompleted:
         menuPresenter.ShowLevelCompleted(LevelManager.Instance.CurrentLevel);
         CursorManager.Instance.SetCursorLockState(false);
         SimpleAudioManager.Manager.instance.SetIntensity(0);
-        // SoundManager.PlaySound(SoundType.LevelCompleted);
         break;
       case GameState.GameWon:
         menuPresenter.ShowGameWon();
         CursorManager.Instance.SetCursorLockState(false);
         SimpleAudioManager.Manager.instance.SetIntensity(2);
         winFeedback?.PlayFeedbacks();
-        // SoundManager.PlaySound(SoundType.GameWon);
         break;
     }
   }
@@ -206,9 +212,6 @@ public class GameManager : Singleton<GameManager> {
   private void HandleNextLevelClicked() {
     LevelManager.Instance.NextLevel();
     ChangeState(GameState.Playing);
-    if (TryGetPlayer(out var player)) {
-      player.GetComponentInChildren<Damageable>().ResetHealth();
-    }
   }
 
   private void HandleMainMenuClicked() {
@@ -235,6 +238,11 @@ public class GameManager : Singleton<GameManager> {
     }
     playerTransform = player.transform;
     return true;
+  }
+
+  private void SpawnPlayerIfNotExists() {
+    if (TryGetPlayer(out var player)) return;
+    SpawnPlayer();
   }
 
   public static Color GetMissileColor(MissileColor color) {

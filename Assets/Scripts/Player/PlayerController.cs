@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
   [SerializeField] private bool useTrackpadMode = false;
   [SerializeField] private float trackpadSensitivityMultiplier = 3f;
   [SerializeField] private float smoothTime = 0.1f;
+  [SerializeField] private float keyboardRotationSpeed = 50f;
 
   public Vector2 CurrentVelocity => currentVelocity;
 
@@ -29,6 +30,9 @@ public class PlayerController : MonoBehaviour {
     controls = new InputSystem_Actions();
     controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
     controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+    // controls.Player.Previous.performed += ctx => RotateLeft();
+    // controls.Player.Next.performed += ctx => RotateRight();
   }
 
   private void Start() {
@@ -44,6 +48,7 @@ public class PlayerController : MonoBehaviour {
 
     MovePlayer();
     RotateShieldsWithMouseDelta();
+    HandleKeyboardRotation();
   }
 
   private void OnEnable() {
@@ -81,6 +86,26 @@ public class PlayerController : MonoBehaviour {
       rb.linearVelocity = smoothedVelocity;
     }
 
+  }
+
+  private void HandleKeyboardRotation() {
+    var rotationDirection = 0;
+    if (controls.Player.Previous.IsPressed()) {
+      rotationDirection = 1;
+    } else if (controls.Player.Next.IsPressed()) {
+      rotationDirection = -1;
+    }
+
+    shieldRotation += rotationDirection * keyboardRotationSpeed * Time.fixedDeltaTime;
+
+  }
+
+  private void RotateLeft() {
+    shieldRotation += 10f;
+  }
+
+  private void RotateRight() {
+    shieldRotation -= 10f;
   }
 
   private void RotateShieldsWithMouseDelta() {

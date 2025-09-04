@@ -5,7 +5,7 @@
             <ui:Label text="GAME OVER" style="color: rgb(221, 241, 240); font-size: 90px; -unity-font-definition: url(&quot;project://database/Assets/UI/BIG%20JOHN.otf?fileID=12800000&amp;guid=629d93e25f605324c9a226ca3d123739&amp;type=3#BIG JOHN&quot;); -unity-font-style: normal; margin-bottom: 18%;" />
             <ui:VisualElement name="VisualElement" style="flex-grow: 1; position: absolute; top: 82%; align-items: center; justify-content: flex-start; align-self: auto; align-content: center; flex-direction: column; height: 253px;">
                 <ui:Button text="Try again" display-tooltip-when-elided="false" name="tryAgainButton" class="neon-button" style="margin-bottom: 56px; -unity-font-definition: url(&quot;project://database/Assets/UI/BIG%20JOHN.otf?fileID=12800000&amp;guid=629d93e25f605324c9a226ca3d123739&amp;type=3#BIG JOHN&quot;);" />
-                <ui:Button text="Exit&#10;" display-tooltip-when-elided="false" name="exitButton" class="neon-button" style="-unity-font-definition: url(&quot;project://database/Assets/UI/BIG%20JOHN.otf?fileID=12800000&amp;guid=629d93e25f605324c9a226ca3d123739&amp;type=3#BIG JOHN&quot;);" />
+                <ui:Button text="Main menu" display-tooltip-when-elided="false" name="mainMenuButton" class="neon-button" style="-unity-font-definition: url(&quot;project://database/Assets/UI/BIG%20JOHN.otf?fileID=12800000&amp;guid=629d93e25f605324c9a226ca3d123739&amp;type=3#BIG JOHN&quot;);" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
